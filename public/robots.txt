@@ -1,0 +1,13 @@
+# robots.txt for Forten Solutions
+# This tells search engines what to crawl
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://fortensolutions.com/sitemap.xml
+
+# Disallow admin/config files
+Disallow: /vite.config.js
+Disallow: /tailwind.config.js
+Disallow: /postcss.config.js

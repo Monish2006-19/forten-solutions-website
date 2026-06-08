@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables — add these manually in Vercel dashboard
+.env
+.env.local
+.env.production
+
+# Misc
+.DS_Store
+*.log
+.vercel
+.env*.local

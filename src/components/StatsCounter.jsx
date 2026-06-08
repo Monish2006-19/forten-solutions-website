@@ -1,0 +1,96 @@
+﻿import { useEffect, useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
+
+const stats = [
+  { label: 'Projects Delivered', end: 5, suffix: '+', color: '#ffffff' },
+  { label: 'Happy Clients', end: 5, suffix: '+', color: '#ffffff' },
+  { label: 'Avg Uptime', end: 99.9, suffix: '%', decimals: 1, color: '#ffffff' },
+  { label: 'Tech Stack Expertise', end: 20, suffix: '+', color: '#ffffff' },
+];
+
+function useCountUp(end, duration = 2200, decimals = 0, trigger = false) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!trigger) return;
+    // Elastic overshoot: count to end*1.07, then settle back to end
+    const OVERSHOOT = 1.07;
+    const overshootVal = end * OVERSHOOT;
+    const phase1 = duration * 0.78;
+    const phase2 = duration * 0.22;
+    let startTime = null;
+    let raf;
+    const animate = (ts) => {
+      if (!startTime) startTime = ts;
+      const elapsed = ts - startTime;
+      let current;
+      if (elapsed < phase1) {
+        current = (elapsed / phase1) * overshootVal;
+      } else if (elapsed < duration) {
+        const t2 = (elapsed - phase1) / phase2;
+        current = overshootVal + (end - overshootVal) * t2;
+      } else {
+        current = end;
+      }
+      setVal(+current.toFixed(decimals));
+      if (elapsed < duration) raf = requestAnimationFrame(animate);
+    };
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [trigger, end, duration, decimals]);
+  return val;
+}
+
+function Stat({ label, end, suffix, color, decimals = 0 }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-40px' });
+  const val = useCountUp(end, 2000, decimals, inView);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="relative text-center"
+    >
+      <div className="rounded-2xl p-8" style={{
+        background: 'rgba(11, 15, 25, 0.8)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        backdropFilter: 'blur(10px)',
+      }}>
+        <div className="text-5xl md:text-6xl font-black mb-4 tabular-nums" style={{ color }}>
+          {val}{suffix}
+        </div>
+        <div className="font-semibold uppercase tracking-wider text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          {label}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function StatsCounter() {
+  return (
+    <section className="relative z-10 py-24 px-4 overflow-hidden">
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#0f1419' }}>
+            OUR IMPACT <span style={{ color: '#0f1419', textDecoration: 'underline', textDecorationStyle: 'double', textUnderlineOffset: '8px', textDecorationThickness: '3px' }}>IN NUMBERS</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {stats.map((s) => (
+            <Stat key={s.label} {...s} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
