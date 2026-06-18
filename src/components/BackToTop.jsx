@@ -27,14 +27,14 @@ export default function BackToTop() {
           aria-label="Back to top"
           className="fixed bottom-28 right-6 z-[1998] w-10 h-10 rounded-full flex items-center justify-center"
           style={{
-            background: 'rgba(124,58,237,0.18)',
+            background: 'rgba(0, 0, 204, 0.12)',
             backdropFilter: 'blur(20px) saturate(180%)',
             WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-            border: '1px solid rgba(167,139,250,0.35)',
-            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.14), 0 4px 20px rgba(0,0,0,0.35)',
+            border: '1px solid rgba(0, 0, 204, 0.3)',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.14), 0 4px 20px rgba(0,0,0,0.15)',
           }}
         >
-          <ArrowUp size={15} color="#c4b5fd" />
+          <ArrowUp size={15} color="#0000cc" />
         </motion.button>
       )}
     </AnimatePresence>

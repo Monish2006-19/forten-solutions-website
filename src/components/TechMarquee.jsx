@@ -1,4 +1,4 @@
-﻿import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const techStack = [
   { name: 'React', color: '#61dafb' },
@@ -14,13 +14,14 @@ const techStack = [
   { name: 'Docker', color: '#2496ed' },
   { name: 'AWS', color: '#ff9900' },
   { name: 'Vercel', color: '#ffffff' },
-  { name: 'OpenAI', color: '#10a37f' },
+  { name: 'LangGraph', color: '#10a37f' },
   { name: 'LangChain', color: '#1c3c4d' },
   { name: 'TailwindCSS', color: '#38bdf8' },
-  { name: 'GraphQL', color: '#e10098' },
-  { name: 'React Native', color: '#61dafb' },
+  { name: 'GraphQL', color: '#000000ff' },
+  { name: 'React Native', color: '#000000ff' },
   { name: 'Flutter', color: '#54c5f8' },
   { name: 'Redis', color: '#dc382d' },
+  { name: 'N8N', color: '#2ddc2dff' },
 ];
 
 function MarqueeTrack({ reverse = false }) {
@@ -33,17 +34,21 @@ function MarqueeTrack({ reverse = false }) {
         {items.map((tech, i) => (
           <div
             key={i}
-            className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full border whitespace-nowrap transition-all duration-300 hover:scale-105"
+            className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full border whitespace-nowrap transition-all duration-300 hover:scale-105 shadow-sm"
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              borderColor: `${tech.color}30`,
+              background: '#ffffff',
+              borderColor: tech.color === '#ffffff' ? '#e2e8f0' : `${tech.color}40`,
             }}
           >
             <div
               className="w-2.5 h-2.5 rounded-full"
-              style={{ background: tech.color, boxShadow: `0 0 8px ${tech.color}88` }}
+              style={{
+                background: tech.color,
+                boxShadow: tech.color === '#ffffff' ? 'none' : `0 0 8px ${tech.color}66`,
+                border: tech.color === '#ffffff' ? '1px solid #cbd5e1' : 'none',
+              }}
             />
-            <span className="text-sm font-medium" style={{ color: `${tech.color}cc` }}>
+            <span className="text-sm font-semibold text-slate-800">
               {tech.name}
             </span>
           </div>
@@ -56,17 +61,21 @@ function MarqueeTrack({ reverse = false }) {
         {items.map((tech, i) => (
           <div
             key={'b' + i}
-            className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full border whitespace-nowrap transition-all duration-300 hover:scale-105"
+            className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full border whitespace-nowrap transition-all duration-300 hover:scale-105 shadow-sm"
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              borderColor: `${tech.color}30`,
+              background: '#ffffff',
+              borderColor: tech.color === '#ffffff' ? '#e2e8f0' : `${tech.color}40`,
             }}
           >
             <div
               className="w-2.5 h-2.5 rounded-full"
-              style={{ background: tech.color, boxShadow: `0 0 8px ${tech.color}88` }}
+              style={{
+                background: tech.color,
+                boxShadow: tech.color === '#ffffff' ? 'none' : `0 0 8px ${tech.color}66`,
+                border: tech.color === '#ffffff' ? '1px solid #cbd5e1' : 'none',
+              }}
             />
-            <span className="text-sm font-medium" style={{ color: `${tech.color}cc` }}>
+            <span className="text-sm font-semibold text-slate-800">
               {tech.name}
             </span>
           </div>
@@ -78,32 +87,37 @@ function MarqueeTrack({ reverse = false }) {
 
 export default function TechMarquee() {
   return (
-    <section id="tech" className="relative z-10 py-20 overflow-hidden">
+    <section id="tech" className="relative z-10 py-24 overflow-hidden bg-gradient-to-r from-slate-950 via-blue-900 to-slate-950">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center mb-12 px-4"
+        className="text-center mb-16 px-4"
       >
-        <div
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-widest mb-5 border"
-          style={{ borderColor: 'rgba(124,58,237,0.2)', background: 'rgba(124,58,237,0.05)', color: '#7c3aed' }}
-        >
-          Our Arsenal
-        </div>
-        <h2 className="section-title">Technologies We Master</h2>
-        <p className="section-subtitle">
+        <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight text-white mb-4">
+          Technologies We Master
+        </h2>
+        <p className="text-blue-100 text-sm md:text-base leading-relaxed max-w-xl mx-auto opacity-90">
           A full-stack team fluent in every layer of modern software.
         </p>
       </motion.div>
 
-      {/* Left/right gradients */}
-      <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
-          style={{ background: 'linear-gradient(to right, #07050d, transparent)' }} />
-        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
-          style={{ background: 'linear-gradient(to left, #07050d, transparent)' }} />
-        <div className="flex flex-col gap-4">
+      {/* Left/right gradients matching the dark slate background */}
+      <div className="relative py-6">
+        {/* Thin white background with top/bottom vertical gradients to blend perfectly with the blue bg */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 15%, rgba(255, 255, 255, 0.95) 85%, rgba(255, 255, 255, 0) 100%)'
+          }}
+        />
+
+        <div className="absolute left-0 top-0 bottom-0 w-28 z-10 pointer-events-none"
+          style={{ background: 'linear-gradient(to right, #020617, transparent)' }} />
+        <div className="absolute right-0 top-0 bottom-0 w-28 z-10 pointer-events-none"
+          style={{ background: 'linear-gradient(to left, #020617, transparent)' }} />
+        
+        <div className="relative z-10 flex flex-col gap-4">
           <MarqueeTrack />
         </div>
       </div>

@@ -64,7 +64,7 @@ export default function ContactCTA() {
 
   return (
     <section
-      id="contact-cta"
+      id="contact"
       className="relative z-10 overflow-hidden"
       style={{ minHeight: 520 }}
     >
@@ -74,7 +74,7 @@ export default function ContactCTA() {
         <div
           className="relative flex flex-col justify-center px-10 md:px-16 py-16 lg:py-20"
           style={{
-            background: 'linear-gradient(135deg, #1E40AF 0%, #2563EB 55%, #1D4ED8 100%)',
+            background: 'linear-gradient(135deg, #000099 0%, #0000cc 55%, #0018ff 100%)',
             flex: '0 0 44%',
             minHeight: 400,
           }}

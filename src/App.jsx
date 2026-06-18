@@ -10,7 +10,6 @@ import TechMarquee from './components/TechMarquee';
 import ProjectConfigurator from './components/ProjectConfigurator';
 import CaseStudies from './components/CaseStudies';
 import ContactCTA from './components/ContactCTA';
-import TerminalSection from './components/TerminalSection';
 import Footer from './components/Footer';
 import AIChat from './components/AIChat';
 import BackToTop from './components/BackToTop';
@@ -44,7 +43,7 @@ export default function App() {
 
         {/* Divider glow */}
         <div className="relative z-10 h-px mx-auto max-w-4xl"
-          style={{ background: 'linear-gradient(to right, transparent, rgba(124,58,237,0.35), transparent)' }} />
+          style={{ background: 'linear-gradient(to right, transparent, rgba(0, 0, 204, 0.35), transparent)' }} />
 
         {/* 2. Services grid */}
         <Services />
@@ -72,9 +71,6 @@ export default function App() {
 
         {/* 11. Contact CTA - Start Your Project Today */}
         <ContactCTA />
-
-        {/* 12. Terminal Section */}
-        <TerminalSection />
       </main>
 
       {/* Footer */}

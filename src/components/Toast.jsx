@@ -21,11 +21,11 @@ export default function Toast({ show, onClose, message = 'Message sent! We\'ll r
           aria-live="polite"
           className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[3000] flex items-center gap-3 px-5 py-3.5 rounded-2xl"
           style={{
-            background: 'rgba(12,10,24,0.85)',
+            background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(28px) saturate(180%)',
             WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-            border: '1px solid rgba(124,58,237,0.35)',
-            boxShadow: '0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.10)',
+            border: '1px solid rgba(0, 0, 204, 0.25)',
+            boxShadow: '0 8px 40px rgba(0, 0, 204, 0.08), inset 0 1px 0 rgba(255,255,255,0.9)',
             minWidth: '280px',
             maxWidth: 'calc(100vw - 32px)',
           }}
@@ -36,14 +36,14 @@ export default function Toast({ show, onClose, message = 'Message sent! We\'ll r
             initial={{ width: '100%' }}
             animate={{ width: '0%' }}
             transition={{ duration: 4.4, ease: 'linear' }}
-            style={{ background: 'linear-gradient(to right, #7c3aed, #a855f7)' }}
+            style={{ background: 'linear-gradient(to right, #0000cc, #0055ff)' }}
           />
 
-          <CheckCircle2 size={18} className="text-green-400 shrink-0" />
-          <p className="text-sm text-white font-medium flex-1">{message}</p>
+          <CheckCircle2 size={18} className="text-green-500 shrink-0" />
+          <p className="text-sm text-slate-800 font-medium flex-1">{message}</p>
           <button
             onClick={onClose}
-            className="shrink-0 text-slate-500 hover:text-white transition-colors"
+            className="shrink-0 text-slate-400 hover:text-slate-700 transition-colors"
             data-cursor="link"
           >
             <X size={14} />

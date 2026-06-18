@@ -44,17 +44,13 @@ export default function Navbar() {
 
   const scrolledStyle = {
     background: deepScroll
-      ? 'rgba(14,6,28,0.88)'
-      : 'rgba(8,8,8,0.82)',
+      ? 'rgba(255,255,255,0.92)'
+      : 'rgba(255,255,255,0.82)',
     backdropFilter: 'blur(28px) saturate(180%)',
     WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-    border: deepScroll
-      ? '1px solid rgba(124,58,237,0.22)'
-      : '1px solid rgba(255,255,255,0.1)',
+    border: '1px solid rgba(0, 0, 204, 0.08)',
     borderRadius: '100px',
-    boxShadow: deepScroll
-      ? '0 8px 32px rgba(0,0,0,0.5), 0 1px 0 rgba(124,58,237,0.1) inset'
-      : '0 8px 32px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.08) inset',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.04), 0 1px 0 rgba(255,255,255,0.8) inset',
     padding: '8px 24px',
     width: 'min(820px, calc(100vw - 32px))',
   };
@@ -94,18 +90,18 @@ export default function Navbar() {
                       href={link.href}
                       data-cursor="link"
                       className="relative text-sm font-medium transition-colors duration-200 group"
-                      style={{ color: isActive ? '#c4b5fd' : undefined }}
+                      style={{ color: isActive ? '#0000cc' : (scrolled ? '#475569' : '#cbd5e1') }}
                     >
-                      <span className={isActive ? '' : 'text-slate-400 group-hover:text-white transition-colors'}>
+                      <span className={isActive ? '' : (scrolled ? 'group-hover:text-[#0000cc] transition-colors' : 'group-hover:text-white transition-colors')}>
                         {link.label}
                       </span>
                       <span
-                        className="absolute -bottom-1 left-0 h-px bg-gradient-to-r from-violet-400 to-purple-500 transition-all duration-300"
+                        className="absolute -bottom-1 left-0 h-px bg-gradient-to-r from-blue-500 to-blue-700 transition-all duration-300"
                         style={{ width: isActive ? '100%' : undefined }}
                         data-hover-expand
                       />
                       {!isActive && (
-                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-violet-400 to-purple-500 transition-all duration-300 group-hover:w-full" />
+                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-blue-500 to-blue-700 transition-all duration-300 group-hover:w-full" />
                       )}
                     </a>
                   </li>
@@ -122,7 +118,7 @@ export default function Navbar() {
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden text-slate-300 hover:text-white transition-colors"
+              className={scrolled ? "md:hidden text-slate-700 hover:text-blue-600 transition-colors" : "md:hidden text-slate-300 hover:text-white transition-colors"}
               onClick={() => setOpen(!open)}
               data-cursor="link"
               aria-label={open ? 'Close menu' : 'Open menu'}
@@ -156,7 +152,7 @@ export default function Navbar() {
               style={{
                 background: 'rgba(10,5,20,0.96)',
                 backdropFilter: 'blur(32px)',
-                borderLeft: '1px solid rgba(124,58,237,0.2)',
+                borderLeft: '1px solid rgba(0, 0, 204, 0.2)',
                 boxShadow: '-16px 0 48px rgba(0,0,0,0.7)',
               }}
             >
@@ -178,8 +174,8 @@ export default function Navbar() {
                     transition={{ delay: 0.06 * i }}
                     className="py-3.5 px-4 rounded-xl text-slate-300 hover:text-white font-medium transition-all duration-200 hover:bg-white/5 flex items-center justify-between"
                     style={{
-                      color: activeSection === link.href.replace('#', '') ? '#c4b5fd' : undefined,
-                      background: activeSection === link.href.replace('#', '') ? 'rgba(124,58,237,0.1)' : undefined,
+                      color: activeSection === link.href.replace('#', '') ? '#60a5fa' : undefined,
+                      background: activeSection === link.href.replace('#', '') ? 'rgba(0, 0, 204, 0.1)' : undefined,
                     }}
                     onClick={() => setOpen(false)}
                   >

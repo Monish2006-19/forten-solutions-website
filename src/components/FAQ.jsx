@@ -41,10 +41,7 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <div className="section-badge mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#a78bfa]" />
-            FAQs
-          </div>
+
           <h2 className="section-title">Common Questions</h2>
           <p className="section-subtitle">Everything you need to know before we start.</p>
         </motion.div>
@@ -58,26 +55,26 @@ export default function FAQ() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.07 }}
               className="glass-card overflow-hidden transition-all duration-300"
-              style={{ borderColor: open === i ? 'rgba(124,58,237,0.35)' : 'rgba(255,255,255,0.08)' }}
+              style={{ borderColor: open === i ? 'rgba(0,0,204,0.3)' : 'rgba(0,0,0,0.08)' }}
             >
               <button
                 className="w-full flex items-center justify-between gap-4 p-6 text-left group"
                 onClick={() => setOpen(open === i ? null : i)}
                 data-cursor="link"
               >
-                <span className="text-sm font-semibold text-white group-hover:text-violet-300 transition-colors leading-relaxed">
+                <span className="text-sm font-semibold text-slate-800 group-hover:text-blue-600 transition-colors leading-relaxed">
                   {faq.q}
                 </span>
                 <span
                   className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-200"
                   style={{
-                    background: open === i ? 'rgba(124,58,237,0.25)' : 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(124,58,237,0.3)',
+                    background: open === i ? 'rgba(0,0,204,0.1)' : 'rgba(0,0,0,0.04)',
+                    border: open === i ? '1px solid rgba(0,0,204,0.2)' : '1px solid rgba(0,0,0,0.08)',
                   }}
                 >
                   {open === i
-                    ? <Minus size={11} color="#a78bfa" />
-                    : <Plus size={11} color="#a78bfa" />}
+                    ? <Minus size={11} color="#0000cc" />
+                    : <Plus size={11} color="#0000cc" />}
                 </span>
               </button>
 
@@ -91,7 +88,7 @@ export default function FAQ() {
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                     className="overflow-hidden"
                   >
-                    <p className="px-6 pb-6 text-sm text-slate-400 leading-relaxed">
+                    <p className="px-6 pb-6 text-sm text-slate-600 leading-relaxed">
                       {faq.a}
                     </p>
                   </motion.div>

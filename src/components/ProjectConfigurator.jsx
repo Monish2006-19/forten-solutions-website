@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowLeft, CheckCircle2, Zap, RefreshCw, Check } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Check } from 'lucide-react';
 
 const steps = [
   {
@@ -124,7 +124,7 @@ export default function ProjectConfigurator() {
   const timeline = timeMap[selections.size] || '4–8 weeks';
 
   return (
-    <section id="configurator" className="relative z-10 py-28 px-4">
+    <section id="configurator" className="relative z-10 py-28 px-4 bg-white">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -132,12 +132,7 @@ export default function ProjectConfigurator() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-widest mb-5 border"
-            style={{ borderColor: 'rgba(124,58,237,0.2)', background: 'rgba(124,58,237,0.05)', color: '#7c3aed' }}
-          >
-            <Zap size={12} /> Smart Configurator
-          </div>
+
           <h2 className="section-title">Build Your Project</h2>
           <p className="section-subtitle">
             Answer 4 quick questions and get an instant tech recommendation + timeline estimate.
@@ -147,17 +142,17 @@ export default function ProjectConfigurator() {
         <div className="glass-card p-8 md:p-12 relative overflow-hidden">
           {/* Background accent */}
           <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none"
-            style={{ background: 'radial-gradient(circle, rgba(124,58,237,0.04) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }} />
+            style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.04) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }} />
 
           {!done ? (
             <>
               {/* Progress bar */}
               <div className="flex gap-2 mb-10">
                 {steps.map((_, i) => (
-                  <div key={i} className="flex-1 h-1 rounded-full overflow-hidden bg-white/5">
+                  <div key={i} className="flex-1 h-1 rounded-full overflow-hidden bg-slate-100">
                     <motion.div
                       className="h-full rounded-full"
-                      style={{ background: 'linear-gradient(to right, #7c3aed, #a855f7)' }}
+                      style={{ background: 'linear-gradient(to right, #2563eb, #06b6d4)' }}
                       animate={{ width: i <= step ? '100%' : '0%' }}
                       transition={{ duration: 0.4 }}
                     />
@@ -178,7 +173,7 @@ export default function ProjectConfigurator() {
                   <p className="text-xs font-medium uppercase tracking-widest text-slate-500 mb-3">
                     Step {step + 1} of {steps.length}
                   </p>
-                  <h3 className="text-2xl font-bold text-white mb-8">{current.q}</h3>
+                  <h3 className="text-2xl font-black text-slate-800 mb-8">{current.q}</h3>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {current.opts.map((opt) => {
@@ -190,12 +185,12 @@ export default function ProjectConfigurator() {
                           key={opt.label}
                           onClick={() => select(opt.label)}
                           data-cursor="link"
-                          className="group relative flex items-center justify-center p-4 rounded-xl border text-sm font-medium transition-all duration-200"
+                          className="group relative flex items-center justify-center p-4 rounded-xl border text-sm font-semibold transition-all duration-200"
                           style={{
-                            background: isSelected ? 'rgba(124,58,237,0.1)' : 'rgba(255,255,255,0.03)',
-                            borderColor: isSelected ? '#7c3aed' : 'rgba(255,255,255,0.08)',
-                            color: isSelected ? '#c4b5fd' : '#94a3b8',
-                            boxShadow: isSelected ? '0 0 20px rgba(124,58,237,0.15)' : 'none',
+                            background: isSelected ? 'rgba(0, 0, 204, 0.05)' : '#ffffff',
+                            borderColor: isSelected ? '#0000cc' : '#e2e8f0',
+                            color: isSelected ? '#0000cc' : '#475569',
+                            boxShadow: isSelected ? '0 4px 14px rgba(0, 0, 204, 0.1)' : 'none',
                           }}
                         >
                           <span className="text-center leading-tight">{opt.label}</span>
@@ -206,7 +201,7 @@ export default function ProjectConfigurator() {
                               exit={{ scale: 0 }}
                               transition={{ duration: 0.15 }}
                               className="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center"
-                              style={{ background: '#7c3aed' }}
+                              style={{ background: '#0000cc' }}
                             >
                               <Check size={10} color="#fff" strokeWidth={3} />
                             </motion.div>
@@ -223,7 +218,7 @@ export default function ProjectConfigurator() {
                 <button
                   onClick={back}
                   disabled={step === 0}
-                  className="flex items-center gap-2 text-sm text-slate-500 hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                  className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-800 disabled:opacity-30 disabled:pointer-events-none transition-colors"
                   data-cursor="link"
                 >
                   <ArrowLeft size={16} /> Back
@@ -246,8 +241,8 @@ export default function ProjectConfigurator() {
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center gap-3 mb-8">
-                <CheckCircle2 size={28} className="text-green-400" />
-                <h3 className="text-2xl font-bold text-white">Your Recommendation is Ready</h3>
+                <CheckCircle2 size={28} className="text-green-500" />
+                <h3 className="text-2xl font-black text-slate-800">Your Recommendation is Ready</h3>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -256,7 +251,7 @@ export default function ProjectConfigurator() {
                   <div className="flex flex-wrap gap-2">
                     {stack.map((t) => (
                       <span key={t} className="px-3 py-1 rounded-full text-xs font-semibold"
-                        style={{ background: 'rgba(124,58,237,0.1)', color: '#7c3aed', border: '1px solid rgba(124,58,237,0.25)' }}>
+                        style={{ background: 'rgba(0, 0, 204, 0.04)', color: '#0000cc', border: '1px solid rgba(0, 0, 204, 0.15)' }}>
                         {t}
                       </span>
                     ))}
@@ -274,8 +269,8 @@ export default function ProjectConfigurator() {
                     {Object.entries(selections).flatMap(([, v]) =>
                       Array.isArray(v) ? v : [v]
                     ).map((s, i) => (
-                      <span key={i} className="px-3 py-1 rounded-full text-xs font-medium text-slate-300"
-                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      <span key={i} className="px-3 py-1 rounded-full text-xs font-medium text-slate-600"
+                        style={{ background: 'rgba(0, 0, 204, 0.04)', border: '1px solid rgba(0, 0, 204, 0.15)' }}>
                         {s}
                       </span>
                     ))}

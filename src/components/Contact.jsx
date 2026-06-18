@@ -6,11 +6,11 @@ import Toast from './Toast';
 import { CONTACT_EMAIL, CONTACT_PHONES, CONTACT_LOCATION, CONTACT_MAPS_URL } from '../constants';
 
 const contactInfo = [
-  { icon: Mail, label: 'Email', value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, color: '#7c3aed' },
-  { icon: Phone, label: 'Phone', value: CONTACT_PHONES[0], href: `tel:${CONTACT_PHONES[0].replace(/\s/g, '')}`, color: '#a855f7', linkedin: 'https://www.linkedin.com/in/monish-k-018b8728a/' },
-  { icon: Phone, label: 'Phone', value: CONTACT_PHONES[1], href: `tel:${CONTACT_PHONES[1].replace(/\s/g, '')}`, color: '#a855f7', linkedin: 'https://www.linkedin.com/in/jeevanthsekar93/' },
-  { icon: Phone, label: 'Phone', value: CONTACT_PHONES[2], href: `tel:${CONTACT_PHONES[2].replace(/\s/g, '')}`, color: '#a855f7', linkedin: 'https://www.linkedin.com/in/sheldon-chanthiranath/' },
-  { icon: MapPin, label: 'Location', value: CONTACT_LOCATION, href: CONTACT_MAPS_URL, color: '#a855f7' },
+  { icon: Mail, label: 'Email', value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, color: '#0000cc' },
+  { icon: Phone, label: 'Phone', value: CONTACT_PHONES[0], href: `tel:${CONTACT_PHONES[0].replace(/\s/g, '')}`, color: '#0000cc', linkedin: 'https://www.linkedin.com/in/monish-k-018b8728a/' },
+  { icon: Phone, label: 'Phone', value: CONTACT_PHONES[1], href: `tel:${CONTACT_PHONES[1].replace(/\s/g, '')}`, color: '#0000cc', linkedin: 'https://www.linkedin.com/in/jeevanthsekar93/' },
+  { icon: Phone, label: 'Phone', value: CONTACT_PHONES[2], href: `tel:${CONTACT_PHONES[2].replace(/\s/g, '')}`, color: '#0000cc', linkedin: 'https://www.linkedin.com/in/sheldon-chanthiranath/' },
+  { icon: MapPin, label: 'Location', value: CONTACT_LOCATION, href: CONTACT_MAPS_URL, color: '#0000cc' },
 ];
 
 const services = [
@@ -74,7 +74,7 @@ export default function Contact() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-widest mb-5 border"
-            style={{ borderColor: 'rgba(124,58,237,0.2)', background: 'rgba(124,58,237,0.05)', color: '#7c3aed' }}>
+            style={{ borderColor: 'rgba(59,130,246,0.2)', background: 'rgba(59,130,246,0.05)', color: '#3b82f6' }}>
             Let's Connect
           </div>
           <h2 className="section-title">Start Your Project Today</h2>
@@ -93,7 +93,7 @@ export default function Contact() {
             className="lg:col-span-2 space-y-4"
           >
             <div className="glass-card p-7">
-              <h3 className="text-lg font-bold text-white mb-6">Get in Touch</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-6">Get in Touch</h3>
               <div className="space-y-5">
                 {contactInfo.map((info, i) => {
                   const Icon = info.icon;
@@ -114,7 +114,7 @@ export default function Contact() {
                         </div>
                         <div className="min-w-0">
                           <p className="text-xs text-slate-500 uppercase tracking-wider">{info.label}</p>
-                          <p className="text-sm text-slate-300 group-hover:text-white transition-colors font-medium truncate">
+                          <p className="text-sm text-slate-600 group-hover:text-blue-600 transition-colors font-medium truncate">
                             {info.value}
                           </p>
                         </div>
@@ -139,10 +139,10 @@ export default function Contact() {
             {/* Quick response promise */}
             <div className="glass-card p-5 flex items-center gap-4"
               style={{ borderColor: 'rgba(34,197,94,0.2)' }}>
-              <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse shrink-0" />
+              <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-white">Available & Ready</p>
-                <p className="text-xs text-slate-400">We respond within 24 hours on business days</p>
+                <p className="text-sm font-semibold text-slate-800">Available & Ready</p>
+                <p className="text-xs text-slate-500">We respond within 24 hours on business days</p>
               </div>
             </div>
           </motion.div>
@@ -169,8 +169,8 @@ export default function Contact() {
                   >
                     <CheckCircle2 size={60} className="text-green-400 mb-5" />
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Message Sent!</h3>
-                  <p className="text-slate-400 mb-6">
+                  <h3 className="text-2xl font-bold text-slate-800 mb-3">Message Sent!</h3>
+                  <p className="text-slate-600 mb-6">
                     Thanks for reaching out. We'll get back to you within 24 hours.
                   </p>
                   <button
@@ -185,18 +185,18 @@ export default function Contact() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-medium text-slate-400 mb-2 uppercase tracking-wider">Name *</label>
+                      <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wider">Name *</label>
                       <input
                         name="name"
                         value={form.name}
                         onChange={handleChange}
                         required
                         placeholder="Your name"
-                        className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-slate-600 outline-none focus:border-violet-500/50 transition-colors"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder:text-slate-400 outline-none focus:border-blue-500/50 transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-slate-400 mb-2 uppercase tracking-wider">Email *</label>
+                      <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wider">Email *</label>
                       <input
                         name="email"
                         type="email"
@@ -204,29 +204,29 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                         placeholder="you@company.com"
-                        className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-slate-600 outline-none focus:border-violet-500/50 transition-colors"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder:text-slate-400 outline-none focus:border-blue-500/50 transition-colors"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-slate-400 mb-2 uppercase tracking-wider">Service Needed</label>
+                    <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wider">Service Needed</label>
                     <select
                       name="service"
                       value={form.service}
                       onChange={handleChange}
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-violet-500/50 transition-colors appearance-none"
-                      style={{ color: form.service ? '#e2e8f0' : '#4b5563', background: 'rgba(255,255,255,0.03)' }}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500/50 transition-colors appearance-none"
+                      style={{ color: form.service ? '#1e293b' : '#94a3b8' }}
                     >
-                      <option value="">Select a service...</option>
+                      <option value="" style={{ background: '#ffffff', color: '#94a3b8' }}>Select a service...</option>
                       {services.map((s) => (
-                        <option key={s} value={s} style={{ background: '#0f0f17' }}>{s}</option>
+                        <option key={s} value={s} style={{ background: '#ffffff', color: '#1e293b' }}>{s}</option>
                       ))}
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-slate-400 mb-2 uppercase tracking-wider">Tell us about your project *</label>
+                    <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wider">Tell us about your project *</label>
                     <textarea
                       name="message"
                       value={form.message}
@@ -234,7 +234,7 @@ export default function Contact() {
                       required
                       rows={5}
                       placeholder="What are you building? What problem are you solving? Any timeline or budget in mind?"
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-slate-600 outline-none focus:border-violet-500/50 transition-colors resize-none"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder:text-slate-400 outline-none focus:border-blue-500/50 transition-colors resize-none"
                     />
                   </div>
 

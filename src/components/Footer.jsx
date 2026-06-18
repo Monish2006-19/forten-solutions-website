@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { CONTACT_EMAIL, CONTACT_PHONES, CONTACT_LOCATION } from '../constants';
 
 const navLinks = [
@@ -23,19 +23,19 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+    <footer className="relative z-10 border-t bg-white" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
       {/* Top section */}
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div>
             <div className="flex items-center gap-2 mb-5">
               <span className="font-extrabold text-lg">
-                <span className="text-white">Forten</span>{' '}
+                <span className="text-slate-800">Forten</span>{' '}
                 <span className="text-gradient">Solutions</span>
               </span>
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed mb-6">
+            <p className="text-slate-600 text-sm leading-relaxed mb-6">
               We build custom software, AI automations, and digital products that help businesses grow, scale, and lead.
             </p>
 
@@ -50,9 +50,9 @@ export default function Footer() {
                   key={text}
                   href={href}
                   data-cursor="link"
-                  className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-slate-300 transition-colors"
+                  className="flex items-center gap-2.5 text-sm text-slate-600 hover:text-blue-600 transition-colors"
                 >
-                  <Icon size={13} className="text-cyan-500 shrink-0" />
+                  <Icon size={13} className="text-blue-600 shrink-0" />
                   {text}
                 </a>
               ))}
@@ -68,10 +68,10 @@ export default function Footer() {
                   <a
                     href={l.href}
                     data-cursor="link"
-                    className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-1 group"
+                    className="text-sm text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-1 group"
                   >
                     <span
-                      className="w-0 h-px bg-violet-400 transition-all duration-300 group-hover:w-3"
+                      className="w-0 h-px bg-blue-600 transition-all duration-300 group-hover:w-3"
                     />
                     {l.label}
                   </a>
@@ -89,44 +89,24 @@ export default function Footer() {
                   <a
                     href="#services"
                     data-cursor="link"
-                    className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-1 group"
+                    className="text-sm text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-1 group"
                   >
-                    <span className="w-0 h-px bg-violet-400 transition-all duration-300 group-hover:w-3" />
+                    <span className="w-0 h-px bg-blue-600 transition-all duration-300 group-hover:w-3" />
                     {s}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
-
-          {/* CTA box */}
-          <div>
-            <div
-              className="glass-card p-6"
-              style={{ borderColor: 'rgba(0,212,255,0.2)' }}
-            >
-              <h4 className="text-base font-bold text-white mb-2">Have an idea?</h4>
-              <p className="text-sm text-slate-400 mb-5">
-                Let's build something extraordinary together. Get a free project estimate today.
-              </p>
-              <a
-                href="#contact"
-                data-cursor="link"
-                className="btn-primary text-sm w-full justify-center"
-              >
-                Get Free Quote <ArrowUpRight size={14} />
-              </a>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Bottom bar */}
       <div
-        className="border-t px-6 py-5"
-        style={{ borderColor: 'rgba(255,255,255,0.04)' }}
+        className="border-t px-6 py-5 bg-white"
+        style={{ borderColor: 'rgba(0,0,0,0.04)' }}
       >
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
           <p>&copy; {year} Forten Solutions. All rights reserved.</p>
 
         </div>

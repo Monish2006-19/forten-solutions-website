@@ -40,11 +40,11 @@ export default function HeroTerminal() {
           >
             <span className="inline-flex items-center gap-1.5 px-3.5 py.5 rounded-full text-[11px] font-semibold uppercase tracking-widest"
               style={{
-                background: 'rgba(6,182,212,0.1)',
-                border: '1px solid rgba(6,182,212,0.4)',
-                color: '#06b6d4',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                color: '#ffffff',
               }}>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#06b6d4] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ffffff] animate-pulse" />
               Software Solutions · Vellore, India
             </span>
           </motion.div>
@@ -66,15 +66,11 @@ export default function HeroTerminal() {
                 </motion.span>
               ))}
               <br />
-              {/* Line 2: "Digital Futures" */}
-              {['Digital', 'Futures'].map((w, i) => (
+              {/* Line 2: "Digital Future" */}
+              {['Digital', 'Future'].map((w, i) => (
                 <motion.span key={w} style={{
                   display: 'inline-block', marginRight: '0.28em',
-                  background: w === 'Digital' ? 'linear-gradient(110deg, #ffffff 0%, #06b6d4 100%)' : '#ffffff',
-                  WebkitBackgroundClip: w === 'Digital' ? 'text' : 'unset',
-                  WebkitTextFillColor: w === 'Digital' ? 'transparent' : 'unset',
-                  backgroundClip: w === 'Digital' ? 'text' : 'unset',
-                  color: w === 'Digital' ? 'transparent' : '#ffffff',
+                  color: '#ffffff',
                 }}
                   initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -103,7 +99,7 @@ export default function HeroTerminal() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            style={{ color: '#e0e7ff', lineHeight: 1.75, fontSize: '1.05rem', maxWidth: '44ch' }}
+            style={{ color: '#ffffff', lineHeight: 1.75, fontSize: '1.05rem', maxWidth: '44ch' }}
           >
             Custom software, AI automations, and full-stack engineering — delivered by a powerhouse team that turns your ideas into production-grade reality.
           </motion.p>

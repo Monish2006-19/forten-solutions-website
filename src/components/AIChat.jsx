@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, Minimize2 } from 'lucide-react';
 
@@ -131,7 +131,7 @@ export default function AIChat() {
         onClick={() => setOpen(!open)}
         className="fixed bottom-6 right-6 z-[2000] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl"
         style={{
-          background: 'linear-gradient(135deg, #7c3aed, #a855f7)',
+          background: 'linear-gradient(135deg, #0000cc, #0055ff)',
           boxShadow: '0 8px 32px rgba(0,0,0,0.45)',
         }}
         whileHover={{ scale: 1.1 }}
@@ -166,17 +166,17 @@ export default function AIChat() {
             className="fixed bottom-24 right-6 z-[1999] w-[340px] max-w-[calc(100vw-2rem)] flex flex-col overflow-hidden rounded-2xl"
             style={{
               background: '#0f0f0f',
-              border: '1px solid rgba(124,58,237,0.2)',
+              border: '1px solid rgba(0, 0, 204, 0.25)',
               boxShadow: '0 25px 60px rgba(0,0,0,0.7)',
               height: '480px',
             }}
           >
             {/* Header */}
             <div className="px-4 py-3.5 flex items-center justify-between border-b border-white/5"
-              style={{ background: 'rgba(124,58,237,0.06)' }}>
+              style={{ background: 'rgba(0, 0, 204, 0.08)' }}>
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)' }}>
+                  style={{ background: 'linear-gradient(135deg, #0000cc, #0055ff)' }}>
                   <Bot size={15} color="#0a0a0f" />
                 </div>
                 <div>
@@ -210,10 +210,10 @@ export default function AIChat() {
                     }`}
                     style={{
                       background: msg.from === 'user'
-                        ? 'linear-gradient(135deg, #7c3aed, #a855f7)'
+                        ? 'linear-gradient(135deg, #0000cc, #0055ff)'
                         : 'rgba(255,255,255,0.06)',
                       border: msg.from === 'bot' ? '1px solid rgba(255,255,255,0.06)' : 'none',
-                      color: msg.from === 'user' ? '#080808' : undefined,
+                      color: msg.from === 'user' ? '#ffffff' : undefined,
                     }}
                   >
                     {msg.text}
@@ -232,7 +232,7 @@ export default function AIChat() {
                     <div className="flex gap-1.5 items-center">
                       {[0, 1, 2].map((i) => (
                         <motion.div key={i} className="w-1.5 h-1.5 rounded-full"
-                          style={{ background: '#7c3aed' }}
+                          style={{ background: '#0000cc' }}
                           animate={{ y: [0, -4, 0] }}
                           transition={{ repeat: Infinity, duration: 0.8, delay: i * 0.15 }} />
                       ))}
@@ -251,7 +251,7 @@ export default function AIChat() {
                   onClick={() => send(qr)}
                   data-cursor="link"
                   className="shrink-0 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200"
-                  style={{ background: 'rgba(124,58,237,0.05)', border: '1px solid rgba(124,58,237,0.2)', color: '#64748b' }}
+                  style={{ background: 'rgba(0, 0, 204, 0.05)', border: '1px solid rgba(0, 0, 204, 0.2)', color: '#64748b' }}
                 >
                   {qr}
                 </button>
@@ -268,7 +268,7 @@ export default function AIChat() {
                 onKeyDown={(e) => e.key === 'Enter' && send()}
                 placeholder="Ask me anything..."
                 aria-label="Type your message"
-                className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder:text-slate-600 outline-none focus:border-violet-500/40 transition-colors"
+                className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder:text-slate-600 outline-none focus:border-blue-500/40 transition-colors"
               />
               <button
                 onClick={() => send()}
@@ -276,7 +276,7 @@ export default function AIChat() {
                 data-cursor="link"
                 aria-label="Send message"
                 className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 disabled:opacity-40"
-                style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)' }}
+                style={{ background: 'linear-gradient(135deg, #0000cc, #0055ff)' }}
               >
                 <Send size={15} color="#080808" />
               </button>
