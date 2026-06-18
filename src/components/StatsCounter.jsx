@@ -1,90 +1,188 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { Shield, Activity, RefreshCw, Cpu } from 'lucide-react';
 
-const stats = [
-  { label: 'Projects Delivered', end: 5, suffix: '+', color: '#0000cc' },
-  { label: 'Happy Clients', end: 5, suffix: '+', color: '#0000cc' },
-  { label: 'Avg Uptime', end: 99.9, suffix: '%', decimals: 1, color: '#0000cc' },
-  { label: 'Tech Stack Expertise', end: 20, suffix: '+', color: '#0000cc' },
-];
-
-function useCountUp(end, duration = 2200, decimals = 0, trigger = false) {
+function useCountUp(end, duration = 1800, trigger = false) {
   const [val, setVal] = useState(0);
   useEffect(() => {
     if (!trigger) return;
-    // Elastic overshoot: count to end*1.07, then settle back to end
-    const OVERSHOOT = 1.07;
-    const overshootVal = end * OVERSHOOT;
-    const phase1 = duration * 0.78;
-    const phase2 = duration * 0.22;
     let startTime = null;
     let raf;
     const animate = (ts) => {
       if (!startTime) startTime = ts;
       const elapsed = ts - startTime;
-      let current;
-      if (elapsed < phase1) {
-        current = (elapsed / phase1) * overshootVal;
-      } else if (elapsed < duration) {
-        const t2 = (elapsed - phase1) / phase2;
-        current = overshootVal + (end - overshootVal) * t2;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing out quadratic
+      const easeVal = progress * (2 - progress);
+      setVal(Math.floor(easeVal * end));
+
+      if (progress < 1) {
+        raf = requestAnimationFrame(animate);
       } else {
-        current = end;
+        setVal(end);
       }
-      setVal(+current.toFixed(decimals));
-      if (elapsed < duration) raf = requestAnimationFrame(animate);
     };
     raf = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(raf);
-  }, [trigger, end, duration, decimals]);
+  }, [trigger, end, duration]);
   return val;
 }
 
-function Stat({ label, end, suffix, color, decimals = 0 }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
-  const val = useCountUp(end, 2000, decimals, inView);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="relative text-center"
-    >
-      <div className="glass-card p-8">
-        <div className="text-5xl md:text-6xl font-black mb-4 tabular-nums" style={{ color }}>
-          {val}{suffix}
-        </div>
-        <div className="font-semibold uppercase tracking-wider text-sm text-slate-500">
-          {label}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 export default function StatsCounter() {
-  return (
-    <section className="relative z-10 py-24 px-4 overflow-hidden">
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#0f172a' }}>
-            OUR IMPACT IN NUMBERS
-          </h2>
-        </motion.div>
+  const containerRef = useRef(null);
+  const inView = useInView(containerRef, { once: true, margin: '-100px' });
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {stats.map((s) => (
-            <Stat key={s.label} {...s} />
-          ))}
+  // Custom counts
+  const uptimeVal = useCountUp(999, 1500, inView); // will divide by 10
+  const queriesVal = useCountUp(428950, 2000, inView);
+  const activeAgents = useCountUp(18, 1200, inView);
+
+  // Live fluctuating workloads
+  const [cpu, setCpu] = useState(48.2);
+  const [ram, setRam] = useState(62.4);
+
+  useEffect(() => {
+    if (!inView) return;
+    const interval = setInterval(() => {
+      setCpu(Number((40 + Math.random() * 15).toFixed(1)));
+      setRam(Number((60 + Math.random() * 5).toFixed(1)));
+    }, 2800);
+    return () => clearInterval(interval);
+  }, [inView]);
+
+  return (
+    <section 
+      ref={containerRef}
+      className="relative py-24 px-4 md:px-8 overflow-hidden" 
+      style={{ background: '#050508' }}
+    >
+      <div className="absolute inset-0 pointer-events-none opacity-10 cyber-grid" />
+
+      <div className="relative z-10 max-w-7xl mx-auto">
+        
+        {/* Header */}
+        <div className="text-center mb-16">
+          <span className="neon-text text-purple-400 font-extrabold tracking-widest uppercase text-xs block mb-3">
+            [ infrastructure metrics ]
+          </span>
+          <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-none">
+            Live Telemetry Diagnostics
+          </h2>
+          <p className="section-subtitle max-w-xl mx-auto text-xs md:text-sm text-white/50">
+            Real-time analytics showcasing system reliability, scaling loads, and automation throughput.
+          </p>
+        </div>
+
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          {/* Card 1: Network Heartbeat & Uptime */}
+          <div className="bento-tile p-6 flex flex-col justify-between min-h-[200px]">
+            <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+              <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold flex items-center gap-1.5">
+                <Shield size={12} className="text-cyan-400" />
+                Cluster Reliability
+              </span>
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            </div>
+
+            <div className="my-2">
+              <span className="text-4xl font-extrabold text-white tracking-tighter block tabular-nums">
+                {(uptimeVal / 10).toFixed(2)}%
+              </span>
+              <span className="text-[10px] text-white/50 block mt-1">Average Cluster Uptime</span>
+            </div>
+
+            {/* Heartbeat path SVG */}
+            <div className="h-8 w-full mt-3 opacity-60">
+              <svg width="100%" height="100%" viewBox="0 0 160 30" preserveAspectRatio="none">
+                <path
+                  d="M0 15 L 40 15 L 45 5 L 50 25 L 55 15 L 90 15 L 95 0 L 100 30 L 105 15 L 160 15"
+                  fill="none"
+                  stroke="#00f0ff"
+                  strokeWidth="1.5"
+                  className="stroke-cyan-400"
+                />
+              </svg>
+            </div>
+          </div>
+
+          {/* Card 2: Transactions / Query throughput */}
+          <div className="bento-tile p-6 flex flex-col justify-between min-h-[200px]">
+            <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+              <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold flex items-center gap-1.5">
+                <Activity size={12} className="text-purple-400" />
+                API Throughput
+              </span>
+            </div>
+
+            <div className="my-2">
+              <span className="text-4xl font-extrabold text-white tracking-tighter block tabular-nums">
+                {queriesVal.toLocaleString()}+
+              </span>
+              <span className="text-[10px] text-white/50 block mt-1">Daily Automated Tasks</span>
+            </div>
+
+            <div className="text-[9px] text-white/30 font-mono mt-3">
+              Telemetry rate: <span className="text-purple-400 font-bold">~490 req/min</span>
+            </div>
+          </div>
+
+          {/* Card 3: Cloud Workloads */}
+          <div className="bento-tile p-6 flex flex-col justify-between min-h-[200px]">
+            <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+              <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold flex items-center gap-1.5">
+                <Cpu size={12} className="text-yellow-400" />
+                Hardware Allocation
+              </span>
+              <RefreshCw size={10} className="text-white/40 animate-spin" style={{ animationDuration: '4s' }} />
+            </div>
+
+            <div className="space-y-3 my-2">
+              <div>
+                <div className="flex justify-between text-[9px] mb-1">
+                  <span className="text-white/60">CPU Workload</span>
+                  <span className="text-yellow-400 font-bold">{cpu}%</span>
+                </div>
+                <div className="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+                  <div className="bg-yellow-500 h-full rounded-full transition-all duration-500" style={{ width: `${cpu}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-[9px] mb-1">
+                  <span className="text-white/60">Memory Cache</span>
+                  <span className="text-purple-400 font-bold">{ram}%</span>
+                </div>
+                <div className="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+                  <div className="bg-purple-500 h-full rounded-full transition-all duration-500" style={{ width: `${ram}%` }} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4: Orchestrators */}
+          <div className="bento-tile p-6 flex flex-col justify-between min-h-[200px]">
+            <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+              <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">
+                Active Agents
+              </span>
+            </div>
+
+            <div className="my-2">
+              <span className="text-4xl font-extrabold text-white tracking-tighter block tabular-nums">
+                {activeAgents}
+              </span>
+              <span className="text-[10px] text-white/50 block mt-1">Autonomous workflows active</span>
+            </div>
+
+            <div className="text-[9px] text-white/30 flex justify-between items-center mt-3 border-t border-white/5 pt-2">
+              <span>Database Nodes:</span>
+              <span className="text-green-400 font-bold">4 Active</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

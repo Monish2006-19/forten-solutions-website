@@ -14,7 +14,7 @@ import Footer from './components/Footer';
 import AIChat from './components/AIChat';
 import BackToTop from './components/BackToTop';
 import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
+// FAQ moved to Navbar dropdown
 
 // Page fade-in on load
 const pageVariants = {
@@ -22,10 +22,19 @@ const pageVariants = {
   show: { opacity: 1, transition: { duration: 0.5 } },
 };
 
+/* Subtle section divider */
+function Divider() {
+  return (
+    <div
+      className="relative z-10 h-px mx-auto max-w-4xl"
+      style={{ background: 'linear-gradient(to right, transparent, rgba(37,99,235,0.25), transparent)' }}
+    />
+  );
+}
+
 export default function App() {
   // Always scroll to top on load
   useEffect(() => {
-    // Double-ensure we're at the top after React hydrates
     requestAnimationFrame(() => {
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     });
@@ -38,38 +47,41 @@ export default function App() {
 
       {/* Main content */}
       <main className="relative z-10">
-        {/* 1. Hero with interactive terminal */}
+        {/* 1. Hero */}
         <HeroTerminal />
 
-        {/* Divider glow */}
-        <div className="relative z-10 h-px mx-auto max-w-4xl"
-          style={{ background: 'linear-gradient(to right, transparent, rgba(0, 0, 204, 0.35), transparent)' }} />
+        <Divider />
 
-        {/* 2. Services grid */}
+        {/* 2. Services scroll storytelling */}
         <Services />
+
+        <Divider />
 
         {/* 3. Animated stats counters */}
         <StatsCounter />
 
-        {/* 3.5. Mobile Showcase - Features */}
+        <Divider />
+
+        {/* 4. Mobile & Web Showcase */}
         <MobileShowcase />
 
-        {/* 4. Case studies */}
+        {/* 5. Case studies */}
         <CaseStudies />
 
-        {/* 5. Tech stack marquee */}
+        {/* 6. Tech stack marquee */}
         <TechMarquee />
+
+        <Divider />
 
         {/* 7. AI Project Configurator */}
         <ProjectConfigurator />
 
+        <Divider />
+
         {/* 8. Testimonials */}
         <Testimonials />
 
-        {/* 10. FAQ accordion */}
-        <FAQ />
-
-        {/* 11. Contact CTA - Start Your Project Today */}
+        {/* 9. Contact CTA */}
         <ContactCTA />
       </main>
 

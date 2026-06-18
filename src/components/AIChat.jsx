@@ -143,11 +143,11 @@ export default function AIChat() {
         <AnimatePresence mode="wait">
           {open ? (
             <motion.span key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-              <X size={20} color="#0a0a0f" />
+              <X size={20} color="#ffffff" />
             </motion.span>
           ) : (
             <motion.span key="chat" initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
-              <MessageCircle size={22} color="#0a0a0f" />
+              <MessageCircle size={22} color="#ffffff" />
             </motion.span>
           )}
         </AnimatePresence>
@@ -177,7 +177,7 @@ export default function AIChat() {
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center"
                   style={{ background: 'linear-gradient(135deg, #0000cc, #0055ff)' }}>
-                  <Bot size={15} color="#0a0a0f" />
+                  <Bot size={15} color="#ffffff" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-white">Forte</p>
@@ -217,7 +217,7 @@ export default function AIChat() {
                     }}
                   >
                     {msg.text}
-                    <div className={`text-[10px] mt-1 opacity-50 ${msg.from === 'user' ? 'text-right text-black' : 'text-slate-500'}`}>
+                    <div className={`text-[10px] mt-1 opacity-50 ${msg.from === 'user' ? 'text-right text-white' : 'text-slate-500'}`}>
                       {formatTime(msg.time)}
                     </div>
                   </div>
@@ -278,7 +278,7 @@ export default function AIChat() {
                 className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 disabled:opacity-40"
                 style={{ background: 'linear-gradient(135deg, #0000cc, #0055ff)' }}
               >
-                <Send size={15} color="#080808" />
+                <Send size={15} color="#ffffff" />
               </button>
             </div>
           </motion.div>

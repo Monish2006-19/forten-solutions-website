@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Menu, X, ChevronDown, Activity, Cpu } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
@@ -10,22 +10,113 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ];
 
+const faqs = [
+  {
+    q: 'How long does a typical project take?',
+    a: 'Depends on scope. A quick MVP takes 2–4 weeks. A small project runs 4–8 weeks. Mid-sized products take 2–5 months. We give you a precise timeline after our initial discovery call.',
+  },
+  {
+    q: 'What is your pricing model?',
+    a: 'We work on fixed-price contracts for well-scoped projects, and time & material (T&M) for evolving products. MVPs start from ₹30K–₹80K; full platforms from ₹2L+. We always quote upfront with no surprises.',
+  },
+  {
+    q: 'Do you provide post-launch support?',
+    a: 'Yes. We offer monthly maintenance retainers starting from ₹15K/month, covering bug fixes, feature updates, security patches, dependency upgrades, and performance monitoring.',
+  },
+  {
+    q: 'What technologies do you work with?',
+    a: 'Our core stack: React/Next.js, Node.js, Python/FastAPI, PostgreSQL, Supabase, OpenAI/LangChain, Docker, AWS/Vercel. We also build mobile with React Native and Flutter.',
+  },
+  {
+    q: 'Can you work with our existing codebase?',
+    a: 'Absolutely. We do audits, refactors, and feature additions on existing systems. We review your code, document everything, and propose a clean plan before touching anything.',
+  },
+  {
+    q: 'How do we communicate during the project?',
+    a: 'We set up a shared Slack or WhatsApp channel from day one. You get weekly demo calls, a live progress board, and direct access to your developer any time. No black-box development.',
+  },
+];
+
+/* ── Inline SVG Logo matching provided design ── */
+function FortenLogo() {
+  return (
+    <a href="#hero" data-cursor="link" className="flex items-center gap-3 group" style={{ textDecoration: 'none' }}>
+      <svg width="34" height="30" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="7" width="23" height="23" rx="5.5" fill="#1e3a8a" />
+        <rect x="15" y="0" width="23" height="23" rx="5.5" fill="#00f0ff" />
+        <rect x="15" y="7" width="8" height="8" rx="1" fill="#1e3a8a" />
+      </svg>
+      <div className="flex flex-col" style={{ gap: '1px' }}>
+        <span style={{
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 900,
+          fontSize: '14px',
+          letterSpacing: '0.12em',
+          color: '#ffffff',
+          lineHeight: 1,
+          textTransform: 'uppercase',
+        }}>
+          FORTEN
+        </span>
+        <span style={{
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 300,
+          fontSize: '8px',
+          letterSpacing: '0.34em',
+          color: '#00f0ff',
+          lineHeight: 1,
+          textTransform: 'uppercase',
+        }}>
+          SOLUTIONS
+        </span>
+      </div>
+    </a>
+  );
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [deepScroll, setDeepScroll] = useState(false);
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [faqOpen, setFaqOpen] = useState(false);
+  const [openFaqIdx, setOpenFaqIdx] = useState(null);
+  const [latency, setLatency] = useState(12);
+  const [cpuLoad, setCpuLoad] = useState(6.4);
+  const faqRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 40);
-      setDeepScroll(window.scrollY > 400);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // IntersectionObserver for active section
+  // Simulate server status changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLatency(Number((10 + Math.random() * 4).toFixed(0)));
+      setCpuLoad(Number((4.5 + Math.random() * 3).toFixed(1)));
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (faqRef.current && !faqRef.current.contains(e.target)) {
+        setFaqOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setFaqOpen(false);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   useEffect(() => {
     const ids = navLinks.map((l) => l.href.replace('#', ''));
     const observers = [];
@@ -42,155 +133,238 @@ export default function Navbar() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  const scrolledStyle = {
-    background: deepScroll
-      ? 'rgba(255,255,255,0.92)'
-      : 'rgba(255,255,255,0.82)',
-    backdropFilter: 'blur(28px) saturate(180%)',
-    WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-    border: '1px solid rgba(0, 0, 204, 0.08)',
-    borderRadius: '100px',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.04), 0 1px 0 rgba(255,255,255,0.8) inset',
-    padding: '8px 24px',
-    width: 'min(820px, calc(100vw - 32px))',
-  };
-
   return (
     <>
       <motion.nav
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="fixed top-0 left-0 right-0 z-[1000] flex justify-center transition-all duration-500"
-        style={{ paddingTop: scrolled ? '14px' : '20px' }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 right-0 z-[1000] flex justify-center px-4"
+        style={{ paddingTop: scrolled ? '14px' : '24px' }}
       >
         <div
-          className="transition-all duration-500"
-          style={scrolled ? scrolledStyle : {
-            width: 'min(1280px, calc(100vw - 48px))',
-            padding: '0 0px',
+          className="bento-tile flex items-center justify-between transition-all duration-500"
+          style={{
+            width: scrolled ? 'min(1040px, 100%)' : 'min(1240px, 100%)',
+            padding: '12px 28px',
+            background: scrolled ? 'rgba(5, 5, 8, 0.85)' : 'rgba(10, 10, 15, 0.5)',
+            borderColor: scrolled ? 'rgba(0, 240, 255, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+            boxShadow: scrolled 
+              ? '0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(0, 240, 255, 0.05)'
+              : '0 8px 30px rgba(0,0,0,0.4)',
           }}
         >
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <a href="#hero" data-cursor="link" className="flex items-center gap-2 group">
-              <span className="font-extrabold text-xl tracking-tight">
-                <span className="text-gradient">Forten</span>{' '}
-                <span className="text-gradient">Solutions</span>
-              </span>
-            </a>
+          {/* Logo */}
+          <FortenLogo />
 
-            {/* Desktop Links */}
-            <ul className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => {
-                const isActive = activeSection === link.href.replace('#', '');
-                return (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      data-cursor="link"
-                      className="relative text-sm font-medium transition-colors duration-200 group"
-                      style={{ color: isActive ? '#0000cc' : (scrolled ? '#475569' : '#cbd5e1') }}
-                    >
-                      <span className={isActive ? '' : (scrolled ? 'group-hover:text-[#0000cc] transition-colors' : 'group-hover:text-white transition-colors')}>
-                        {link.label}
-                      </span>
-                      <span
-                        className="absolute -bottom-1 left-0 h-px bg-gradient-to-r from-blue-500 to-blue-700 transition-all duration-300"
-                        style={{ width: isActive ? '100%' : undefined }}
-                        data-hover-expand
+          {/* Desktop Nav Links */}
+          <ul className="hidden md:flex items-center gap-7">
+            {navLinks.map((link) => {
+              const id = link.href.replace('#', '');
+              const isActive = activeSection === id;
+              return (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    data-cursor="link"
+                    className="relative text-[13px] font-medium tracking-wide transition-colors duration-300 py-1"
+                    style={{ color: isActive ? '#00f0ff' : 'rgba(255,255,255,0.65)' }}
+                  >
+                    <span className="hover:text-white transition-colors">{link.label}</span>
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeIndicator"
+                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
-                      {!isActive && (
-                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-blue-500 to-blue-700 transition-all duration-300 group-hover:w-full" />
-                      )}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
+                    )}
+                  </a>
+                </li>
+              );
+            })}
 
-            {/* CTA */}
-            <div className="hidden md:flex items-center gap-4">
-              <a href="#contact" data-cursor="link" className="btn-primary text-sm px-5 py-2.5">
-                Get a Quote
-              </a>
+            {/* FAQ Dropdown inside Nav */}
+            <li ref={faqRef} className="relative">
+              <button
+                onClick={() => setFaqOpen((p) => !p)}
+                className="flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors duration-300 hover:text-white"
+                style={{
+                  color: faqOpen ? '#00f0ff' : 'rgba(255,255,255,0.65)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+              >
+                FAQ
+                <motion.span animate={{ rotate: faqOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                  <ChevronDown size={12} className="text-cyan-400" />
+                </motion.span>
+              </button>
+
+              <AnimatePresence>
+                {faqOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 12, scale: 0.95 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-8 right-0 z-50 rounded-2xl overflow-hidden"
+                    style={{
+                      width: '460px',
+                      background: 'rgba(8, 8, 12, 0.95)',
+                      backdropFilter: 'blur(24px)',
+                      border: '1px solid rgba(0, 240, 255, 0.15)',
+                      boxShadow: '0 20px 60px rgba(0,0,0,0.9)',
+                    }}
+                  >
+                    {/* Header */}
+                    <div className="flex items-center justify-between px-5 py-3 border-b border-white/5 bg-white/[0.02]">
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-cyan-400">
+                        System FAQs
+                      </span>
+                      <button
+                        onClick={() => setFaqOpen(false)}
+                        className="text-white/40 hover:text-white transition-colors"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+
+                    {/* Content */}
+                    <div className="max-h-[380px] overflow-y-auto scrollbar-thin">
+                      {faqs.map((faq, i) => (
+                        <div key={i} className="border-b border-white/5 last:border-b-0">
+                          <button
+                            onClick={() => setOpenFaqIdx(openFaqIdx === i ? null : i)}
+                            className="w-full flex items-center justify-between text-left py-3 px-5 hover:bg-white/[0.02] transition-colors"
+                          >
+                            <span className="text-xs font-semibold text-white/90 pr-4 leading-relaxed">
+                              {faq.q}
+                            </span>
+                            <ChevronDown
+                              size={12}
+                              className={`text-cyan-400 transition-transform duration-300 ${
+                                openFaqIdx === i ? 'rotate-180' : ''
+                              }`}
+                            />
+                          </button>
+                          <AnimatePresence initial={false}>
+                            {openFaqIdx === i && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.25 }}
+                                className="overflow-hidden"
+                              >
+                                <p className="text-[11px] text-white/60 px-5 pb-4 pt-1 leading-relaxed">
+                                  {faq.a}
+                                </p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+          </ul>
+
+          {/* Right Metrics + Action bar */}
+          <div className="hidden lg:flex items-center gap-6">
+            {/* Live system load display */}
+            <div className="flex items-center gap-4 text-[11px] text-white/40 border-r border-white/10 pr-6">
+              <div className="flex items-center gap-1.5">
+                <Cpu size={12} className="text-cyan-400 animate-pulse" />
+                <span>LOAD: <b className="text-white/80">{cpuLoad}%</b></span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Activity size={12} className="text-purple-400" />
+                <span>PING: <b className="text-white/80">{latency}ms</b></span>
+              </div>
             </div>
 
-            {/* Mobile hamburger */}
-            <button
-              className={scrolled ? "md:hidden text-slate-700 hover:text-blue-600 transition-colors" : "md:hidden text-slate-300 hover:text-white transition-colors"}
-              onClick={() => setOpen(!open)}
-              data-cursor="link"
-              aria-label={open ? 'Close menu' : 'Open menu'}
-              aria-expanded={open}
-            >
-              {open ? <X size={22} /> : <Menu size={22} />}
-            </button>
+            <a href="#contact" data-cursor="link" className="btn-primary py-2 px-5 text-xs">
+              Brief Us →
+            </a>
           </div>
+
+          {/* Mobile hamburger menu */}
+          <button
+            className="md:hidden text-white/70 hover:text-white"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </motion.nav>
 
-      {/* Mobile menu — side drawer */}
+      {/* Mobile Menu Panel */}
       <AnimatePresence>
         {open && (
           <>
-            {/* Backdrop */}
+            {/* Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[998] bg-black/50 md:hidden"
+              className="fixed inset-0 z-[998] md:hidden bg-black/80 backdrop-blur-md"
               onClick={() => setOpen(false)}
             />
-            {/* Drawer from right */}
+            {/* Panel */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', stiffness: 280, damping: 30 }}
-              className="fixed top-0 right-0 bottom-0 z-[999] w-72 py-8 px-7 md:hidden flex flex-col"
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="fixed top-0 right-0 bottom-0 z-[999] w-80 py-8 px-6 md:hidden flex flex-col"
               style={{
-                background: 'rgba(10,5,20,0.96)',
-                backdropFilter: 'blur(32px)',
-                borderLeft: '1px solid rgba(0, 0, 204, 0.2)',
-                boxShadow: '-16px 0 48px rgba(0,0,0,0.7)',
+                background: 'rgba(5, 5, 8, 0.95)',
+                borderLeft: '1px solid rgba(0, 240, 255, 0.1)',
+                boxShadow: '-10px 0 40px rgba(0,0,0,0.9)',
               }}
             >
-              {/* Close */}
-              <button
-                onClick={() => setOpen(false)}
-                className="self-end text-slate-400 hover:text-white mb-8"
-              >
-                <X size={20} />
-              </button>
+              <div className="flex items-center justify-between mb-8">
+                <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400">
+                  Navigation
+                </span>
+                <button onClick={() => setOpen(false)} className="text-white/40 hover:text-white">
+                  <X size={20} />
+                </button>
+              </div>
 
-              <nav className="flex flex-col gap-1">
-                {navLinks.map((link, i) => (
-                  <motion.a
+              <nav className="flex flex-col gap-2 mb-8">
+                {navLinks.map((link) => (
+                  <a
                     key={link.href}
                     href={link.href}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.06 * i }}
-                    className="py-3.5 px-4 rounded-xl text-slate-300 hover:text-white font-medium transition-all duration-200 hover:bg-white/5 flex items-center justify-between"
-                    style={{
-                      color: activeSection === link.href.replace('#', '') ? '#60a5fa' : undefined,
-                      background: activeSection === link.href.replace('#', '') ? 'rgba(0, 0, 204, 0.1)' : undefined,
-                    }}
                     onClick={() => setOpen(false)}
+                    className="py-3 px-4 rounded-xl text-[14px] font-semibold text-white/70 hover:text-white hover:bg-white/5 transition-all"
                   >
                     {link.label}
-                  </motion.a>
+                  </a>
                 ))}
               </nav>
 
-              <a
-                href="#contact"
-                className="btn-primary mt-8 justify-center text-sm"
-                onClick={() => setOpen(false)}
-              >
-                Get a Quote
-              </a>
+              <div className="border-t border-white/5 pt-6 flex flex-col gap-6">
+                {/* Live load details on mobile */}
+                <div className="flex items-center justify-between text-xs text-white/50 px-4">
+                  <span className="flex items-center gap-1.5"><Cpu size={12} className="text-cyan-400" /> CPU: {cpuLoad}%</span>
+                  <span className="flex items-center gap-1.5"><Activity size={12} className="text-purple-400" /> Latency: {latency}ms</span>
+                </div>
+
+                <a
+                  href="#contact"
+                  className="btn-primary justify-center text-xs py-3.5"
+                  onClick={() => setOpen(false)}
+                >
+                  Schedule Consultation →
+                </a>
+              </div>
             </motion.div>
           </>
         )}

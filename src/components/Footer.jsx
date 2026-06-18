@@ -1,46 +1,95 @@
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Github, Twitter } from 'lucide-react';
 import { CONTACT_EMAIL, CONTACT_PHONES, CONTACT_LOCATION } from '../constants';
 
-const navLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'Our Work', href: '#case-studies' },
-  { label: 'Technologies', href: '#tech' },
-  { label: 'Build a Project', href: '#configurator' },
-  { label: 'Contact', href: '#contact' },
-];
+const footerLinks = {
+  Services: [
+    { label: 'Website Development', href: '#services' },
+    { label: 'Application Development', href: '#services' },
+    { label: 'AI Automation', href: '#services' },
+    { label: 'Enterprise Software', href: '#services' },
+    { label: 'Project Management', href: '#services' },
+    { label: 'Cloud Solutions', href: '#services' },
+  ],
+  Solutions: [
+    { label: 'Business Automation', href: '#services' },
+    { label: 'Real-time Analytics', href: '#services' },
+    { label: 'AI-Powered Systems', href: '#services' },
+    { label: 'Custom APIs', href: '#services' },
+    { label: 'Integration Services', href: '#services' },
+  ],
+  Company: [
+    { label: 'About Us', href: '#hero' },
+    { label: 'Our Work', href: '#case-studies' },
+    { label: 'Technologies', href: '#tech' },
+    { label: 'Build a Project', href: '#configurator' },
+    { label: 'Contact', href: '#contact' },
+  ],
+};
 
-const services = [
-  'Custom Software',
-  'AI Automation',
-  'Web Applications',
-  'Mobile Apps',
-  'API Development',
-  'Tech Consulting',
-];
+/* ── Inline SVG Logo (same as Navbar) ── */
+function FooterLogo() {
+  return (
+    <div className="flex items-center gap-3">
+      <svg width="34" height="30" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="7" width="23" height="23" rx="5.5" fill="#1e3a8a" />
+        <rect x="15" y="0" width="23" height="23" rx="5.5" fill="#00f0ff" />
+        <rect x="15" y="7" width="8" height="8" rx="1" fill="#1e3a8a" />
+      </svg>
+      <div className="flex flex-col" style={{ gap: '1px' }}>
+        <span style={{ fontWeight: 900, fontSize: '13px', letterSpacing: '0.14em', color: '#ffffff', lineHeight: 1 }}>FORTEN</span>
+        <span style={{ fontWeight: 300, fontSize: '7.5px', letterSpacing: '0.38em', color: '#00f0ff', lineHeight: 1 }}>SOLUTIONS</span>
+      </div>
+    </div>
+  );
+}
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 border-t bg-white" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
-      {/* Top section */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {/* Brand */}
-          <div>
-            <div className="flex items-center gap-2 mb-5">
-              <span className="font-extrabold text-lg">
-                <span className="text-slate-800">Forten</span>{' '}
-                <span className="text-gradient">Solutions</span>
-              </span>
-            </div>
-            <p className="text-slate-600 text-sm leading-relaxed mb-6">
+    <footer
+      className="relative z-10"
+      style={{
+        background: '#050508',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
+      }}
+    >
+      {/* Top cyan/violet accent line */}
+      <div style={{
+        height: '1px',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.4) 30%, rgba(124, 58, 237, 0.4) 50%, rgba(0, 240, 255, 0.4) 70%, transparent 100%)',
+      }} />
+
+      {/* Main footer grid */}
+      <div className="max-w-7xl mx-auto px-6 py-16 lg:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
+          {/* Brand column — 2 cols wide */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-2"
+          >
+            <FooterLogo />
+
+            <p className="mt-5 text-xs md:text-sm leading-relaxed text-white/50 max-w-sm">
               We build custom software, AI automations, and digital products that help businesses grow, scale, and lead.
             </p>
 
-            {/* Contact mini */}
-            <div className="space-y-3">
+            {/* Tagline */}
+            <div className="flex items-center gap-2 mt-4">
+              <span className="w-4 h-px bg-cyan-400" />
+              <span className="text-cyan-400 text-[10px] font-bold tracking-widest uppercase">
+                Committed to your success
+              </span>
+              <span className="w-4 h-px bg-cyan-400" />
+            </div>
+
+            {/* Contact info */}
+            <div className="mt-8 space-y-3">
               {[
                 { Icon: Mail, text: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
                 { Icon: Phone, text: CONTACT_PHONES[0], href: `tel:${CONTACT_PHONES[0].replace(/\s/g, '')}` },
@@ -49,66 +98,81 @@ export default function Footer() {
                 <a
                   key={text}
                   href={href}
-                  data-cursor="link"
-                  className="flex items-center gap-2.5 text-sm text-slate-600 hover:text-blue-600 transition-colors"
+                  className="flex items-center gap-2.5 text-xs text-white/50 hover:text-white transition-colors decoration-none"
+                  style={{ textDecoration: 'none' }}
                 >
-                  <Icon size={13} className="text-blue-600 shrink-0" />
-                  {text}
+                  <Icon size={12} className="text-cyan-400 shrink-0" />
+                  <span>{text}</span>
                 </a>
               ))}
             </div>
-          </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-5">Navigation</h4>
-            <ul className="space-y-3">
-              {navLinks.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    data-cursor="link"
-                    className="text-sm text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-1 group"
-                  >
-                    <span
-                      className="w-0 h-px bg-blue-600 transition-all duration-300 group-hover:w-3"
-                    />
-                    {l.label}
-                  </a>
-                </li>
+            {/* Social icons */}
+            <div className="flex items-center gap-3 mt-8">
+              {[
+                { Icon: Linkedin, href: '#', label: 'LinkedIn' },
+                { Icon: Github, href: '#', label: 'GitHub' },
+                { Icon: Twitter, href: '#', label: 'Twitter' },
+              ].map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/5 hover:border-cyan-400/30 bg-white/5 text-white/50 hover:text-cyan-400 transition-all"
+                >
+                  <Icon size={14} />
+                </a>
               ))}
-            </ul>
-          </div>
+            </div>
+          </motion.div>
 
-          {/* Services */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-5">Services</h4>
-            <ul className="space-y-3">
-              {services.map((s) => (
-                <li key={s}>
-                  <a
-                    href="#services"
-                    data-cursor="link"
-                    className="text-sm text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-1 group"
-                  >
-                    <span className="w-0 h-px bg-blue-600 transition-all duration-300 group-hover:w-3" />
-                    {s}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Link columns */}
+          {Object.entries(footerLinks).map(([category, links], colIdx) => (
+            <motion.div
+              key={category}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 * (colIdx + 1) }}
+            >
+              <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-cyan-400 mb-5">
+                {category}
+              </h4>
+              <ul className="space-y-3">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-xs text-white/50 hover:text-white transition-colors flex items-center gap-1 group"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <span className="w-0 h-px bg-cyan-400 transition-all duration-300 group-hover:w-2" />
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div
-        className="border-t px-6 py-5 bg-white"
-        style={{ borderColor: 'rgba(0,0,0,0.04)' }}
-      >
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-          <p>&copy; {year} Forten Solutions. All rights reserved.</p>
-
+      <div className="border-t border-white/5 bg-black/40">
+        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-white/35">
+          <p>© {year} Forten Solutions. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            {['Privacy Policy', 'Terms of Service'].map((item) => (
+              <a
+                key={item}
+                href="#"
+                className="hover:text-white transition-colors"
+                style={{ textDecoration: 'none' }}
+              >
+                {item}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

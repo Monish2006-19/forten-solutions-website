@@ -1,435 +1,178 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Headphones, Heart, Lock, Smartphone, Star } from 'lucide-react';
+import { Shield, Sparkles, Smartphone, Code } from 'lucide-react';
 import mob1 from '../images/mob1.png';
 import web1 from '../images/web1.png';
 import mob2 from '../images/mob2.png';
 import web2 from '../images/web2.png';
 
-const features = [
+const mockupImages = [
+  { web: web1, mob: mob1, title: 'E-Commerce Marketplace Platform' },
+  { web: web2, mob: mob2, title: 'AI Automation SaaS Console' },
+];
+
+const highlights = [
   {
-    icon: Users,
-    title: 'Team of 5 App Experts',
-    description: 'You will be assigned our top developers to build your software',
-    side: 'left',
-  },
-  {
-    icon: Headphones,
-    title: '1-ON-1, In Person',
-    description: 'In-person meetings with project managers, guiding every step together',
-    side: 'left',
-  },
-  {
-    icon: Heart,
-    title: 'Best Code Practices',
-    description: 'Keeping your code healthy and ready for growth & scale',
-    side: 'left',
-  },
-  {
-    icon: Lock,
-    title: 'Privacy & Cybersecurity',
-    description: 'Your ideas are kept confidential, and your code will include best security practices.',
-    side: 'right',
+    icon: Code,
+    title: 'Elite Engineering Standards',
+    desc: 'Strict type validation, structured unit testing, and highly scalable database schema layout.',
+    color: '#00f0ff'
   },
   {
     icon: Smartphone,
-    title: 'Cross Platform Development',
-    description: 'iOS and Android development for the price of 1. We also build off existing apps.',
-    side: 'right',
+    title: 'Cross-Platform Flexibility',
+    desc: 'Simultaneous deployment to web, iOS, and Android to guarantee maximum accessibility.',
+    color: '#a855f7'
   },
   {
-    icon: Star,
-    title: 'Support & Maintenance',
-    description: 'Get the best support while building your mobile app, and the best on-going maintenance afterwards.',
-    side: 'right',
+    icon: Shield,
+    title: 'Ironclad Telemetry Security',
+    desc: 'Encryption-at-rest, OAuth portals, and continuous monitoring to guard customer databases.',
+    color: '#fbbf24'
   },
+  {
+    icon: Sparkles,
+    title: 'Wow-Factor Interface Design',
+    desc: 'Curated color systems, smooth Framer Motion physical layers, and responsive typography.',
+    color: '#ec4899'
+  }
 ];
 
-const mockupImages = [mob1, web1, mob2, web2];
-
 export default function MobileShowcase() {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [showDesktop, setShowDesktop] = useState(false);
-  const [deviceNode, setDeviceNode] = useState(null);
-  const [lines, setLines] = useState([]);
-
-  const sectionRef = useRef(null);
-  const featureRefs = useRef([]);
-
-  const setFeatureRef = (el, idx) => {
-    if (el) featureRefs.current[idx] = el;
-  };
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
-    const imageInterval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % mockupImages.length);
-    }, 2000);
-    return () => clearInterval(imageInterval);
+    const timer = setInterval(() => {
+      setActiveTab((prev) => (prev + 1) % mockupImages.length);
+    }, 6000);
+    return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    const deviceInterval = setInterval(() => {
-      setShowDesktop((prev) => !prev);
-    }, 2000);
-    return () => clearInterval(deviceInterval);
-  }, []);
-
-  // Recalculate orthogonal connecting line paths on mount, resize, scroll, or layout updates
-  useEffect(() => {
-    const calculatePaths = () => {
-      if (!sectionRef.current || !deviceNode) return;
-      
-      const sectionRect = sectionRef.current.getBoundingClientRect();
-      const deviceRect = deviceNode.getBoundingClientRect();
-      const newLines = [];
-
-      // Calculate Left features to device bezel
-      for (let i = 0; i < 3; i++) {
-        const el = featureRefs.current[i];
-        if (!el) continue;
-        const rect = el.getBoundingClientRect();
-
-        const startX = rect.right - sectionRect.left;
-        const startY = rect.top + rect.height / 2 - sectionRect.top;
-        const endX = deviceRect.left - sectionRect.left;
-        const endY = deviceRect.top + deviceRect.height * (0.2 + i * 0.3) - sectionRect.top;
-
-        // Route: Horizontal to midpoint, Vertical down/up, Horizontal to bezel
-        const midX = startX + (endX - startX) * 0.45;
-        const d = `M ${startX.toFixed(1)},${startY.toFixed(1)} H ${midX.toFixed(1)} V ${endY.toFixed(1)} H ${endX.toFixed(1)}`;
-        
-        newLines.push({ id: `left-${i}`, d, startX, startY, endX, endY });
-      }
-
-      // Calculate Right features to device bezel
-      for (let i = 0; i < 3; i++) {
-        const el = featureRefs.current[i + 3];
-        if (!el) continue;
-        const rect = el.getBoundingClientRect();
-
-        const startX = rect.left - sectionRect.left;
-        const startY = rect.top + rect.height / 2 - sectionRect.top;
-        const endX = deviceRect.right - sectionRect.left;
-        const endY = deviceRect.top + deviceRect.height * (0.2 + i * 0.3) - sectionRect.top;
-
-        // Route: Horizontal to midpoint, Vertical down/up, Horizontal to bezel
-        const midX = startX + (endX - startX) * 0.45;
-        const d = `M ${startX.toFixed(1)},${startY.toFixed(1)} H ${midX.toFixed(1)} V ${endY.toFixed(1)} H ${endX.toFixed(1)}`;
-        
-        newLines.push({ id: `right-${i}`, d, startX, startY, endX, endY });
-      }
-
-      setLines(newLines);
-    };
-
-    calculatePaths();
-
-    window.addEventListener('resize', calculatePaths);
-    window.addEventListener('scroll', calculatePaths);
-
-    // Run layout recalculation timer to settle frames
-    const timer = setTimeout(calculatePaths, 300);
-
-    return () => {
-      window.removeEventListener('resize', calculatePaths);
-      window.removeEventListener('scroll', calculatePaths);
-      clearTimeout(timer);
-    };
-  }, [deviceNode, showDesktop]);
-
-  const leftFeatures = features.filter((f) => f.side === 'left');
-  const rightFeatures = features.filter((f) => f.side === 'right');
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative z-10 overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #1e40af 100%)',
-        minHeight: '680px',
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      {/* SVG Connecting Lines Layer (Desktop Only) */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block z-0">
-        {lines.map((line) => (
-          <motion.path
-            key={line.id}
-            d={line.d}
-            stroke="#000000"
-            strokeWidth="1.5"
-            fill="none"
-            animate={{ d: line.d }}
-            transition={{ type: 'spring', stiffness: 70, damping: 14 }}
-          />
-        ))}
-        {lines.map((line) => (
-          <g key={`dots-${line.id}`}>
-            <circle cx={line.startX} cy={line.startY} r="3" fill="#000000" />
-            <circle cx={line.endX} cy={line.endY} r="3.5" fill="#000000" />
-          </g>
-        ))}
-      </svg>
+    <section id="showcase" className="relative py-28 px-4 md:px-8 overflow-hidden" style={{ background: '#050508' }}>
+      <div className="absolute inset-0 pointer-events-none opacity-5 cyber-grid" />
+      <div 
+        className="absolute bottom-10 right-10 w-[400px] h-[400px] pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(59,130,246,0.04) 0%, transparent 60%)',
+          filter: 'blur(70px)'
+        }}
+      />
 
-      <div className="py-20 px-4 w-full relative z-10">
-        <div className="max-w-7xl mx-auto">
-          {/* Mobile Showcase Container */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center h-full">
-            {/* Left Features */}
-            <motion.div className="space-y-16">
-              {leftFeatures.map((feature, idx) => {
-                const Icon = feature.icon;
-                return (
-                  <motion.div
-                    ref={(el) => setFeatureRef(el, idx)}
-                    key={idx}
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: idx * 0.1 }}
-                    className="flex gap-4 relative z-10"
-                  >
-                    <div className="flex-shrink-0">
-                      <div
-                        className="flex items-center justify-center h-12 w-12 rounded-xl"
-                        style={{
-                          background: 'linear-gradient(135deg, #0000cc, #0055ff)',
-                        }}
-                      >
-                        <Icon size={24} className="text-white" />
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          {/* LEFT: Live Browser & Mobile Frames (col-span-7) */}
+          <div className="lg:col-span-7 flex flex-col gap-4">
+            {/* Top Frame tab headers */}
+            <div className="flex items-center gap-2 mb-2">
+              {mockupImages.map((mock, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveTab(idx)}
+                  className={`px-4 py-2 rounded-xl text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 ${
+                    activeTab === idx 
+                      ? 'bg-cyan-500/10 border border-cyan-400/30 text-cyan-400' 
+                      : 'border border-white/5 text-white/45 hover:text-white/80 hover:bg-white/[0.02]'
+                  }`}
+                >
+                  {mock.title}
+                </button>
+              ))}
+            </div>
+
+            {/* Container for mockups */}
+            <div className="bento-tile p-4 md:p-6 min-h-[380px] md:min-h-[440px] flex items-center justify-center relative bg-black/60">
+              <div className="absolute inset-0 opacity-10 cyber-grid pointer-events-none" />
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.45, ease: 'easeOut' }}
+                  className="relative w-full h-full flex flex-col md:flex-row gap-6 items-center justify-center"
+                >
+                  {/* Browser Mockup */}
+                  <div className="w-full md:w-[65%] rounded-xl border border-white/10 bg-[#0c0c12] shadow-2xl overflow-hidden self-stretch flex flex-col">
+                    {/* Browser chrome */}
+                    <div className="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/[0.02] shrink-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-red-500/40" />
+                        <span className="w-2 h-2 rounded-full bg-yellow-500/40" />
+                        <span className="w-2 h-2 rounded-full bg-green-500/40" />
                       </div>
+                      <span className="text-[8px] font-mono text-white/30 tracking-wider">HTTPS://CLIENT-PLATFORM.SECURE</span>
+                      <div className="w-8" />
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-white mb-1">{feature.title}</h3>
-                      <p className="text-sm text-slate-400">{feature.description}</p>
+                    {/* Browser page image */}
+                    <div className="flex-1 bg-slate-900 overflow-hidden relative min-h-[200px]">
+                      <img 
+                        src={mockupImages[activeTab].web} 
+                        alt="Web Mockup" 
+                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                      />
                     </div>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
+                  </div>
 
-            {/* Center Screen Mockup - Animates between mobile and desktop */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="flex justify-center"
-            >
-              <motion.div
-                className="relative w-full"
-                layout
-                style={{
-                  height: '520px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto',
-                  maxWidth: '1200px',
-                  padding: '0 20px',
-                }}
-              >
-                <AnimatePresence mode="wait">
-                  {showDesktop ? (
-                    /* Desktop Monitor */
-                    <motion.div
-                      key="desktop"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.6, ease: 'easeInOut' }}
-                      className="relative mx-auto"
-                      style={{ width: '100%', maxWidth: '600px' }}
-                    >
-                      {/* Monitor frame */}
-                      <div
-                        ref={setDeviceNode}
-                        className="relative rounded-lg overflow-hidden shadow-2xl mx-auto"
-                        style={{
-                          background: '#000',
-                          padding: '16px',
-                          aspectRatio: '16 / 10',
-                        }}
-                      >
-                        {/* Screen content */}
-                        <div className="relative bg-white w-full h-full overflow-hidden rounded-sm">
-                          <AnimatePresence mode="wait">
-                            <motion.div
-                              key={currentImage}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              exit={{ opacity: 0 }}
-                              transition={{ duration: 0.5 }}
-                              className="absolute inset-0"
-                            >
-                              <img
-                                src={mockupImages[currentImage]}
-                                alt={`App mockup ${currentImage + 1}`}
-                                className="w-full h-full object-cover"
-                              />
-                            </motion.div>
-                          </AnimatePresence>
-                        </div>
-                      </div>
-
-                      {/* Monitor stand - pedestal */}
-                      <div className="flex justify-center" style={{ marginTop: '-2px' }}>
-                        <div
-                          className="w-20 h-12 bg-black rounded-b-md"
-                          style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}
-                        />
-                      </div>
-
-                      {/* Monitor base */}
-                      <div className="flex justify-center">
-                        <div
-                          className="w-48 h-3 bg-gradient-to-b from-gray-700 to-black rounded-sm"
-                          style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.4)' }}
-                        />
-                      </div>
-
-                      {/* Carousel indicators */}
-                      <div className="flex justify-center gap-2 mt-8">
-                        {mockupImages.map((_, idx) => (
-                          <motion.button
-                            key={idx}
-                            onClick={() => setCurrentImage(idx)}
-                            className="h-2 rounded-full transition-all"
-                            animate={{
-                              width: currentImage === idx ? 24 : 8,
-                              background: currentImage === idx ? '#0000cc' : 'rgba(255,255,255,0.3)',
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </motion.div>
-                  ) : (
-                    /* Mobile Phone */
-                    <motion.div
-                      key="mobile"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.6, ease: 'easeInOut' }}
-                      className="relative mx-auto"
-                      style={{ width: '280px' }}
-                    >
-                      {/* Outer phone bezel - thick black frame */}
-                      <div
-                        ref={setDeviceNode}
-                        className="relative rounded-full"
-                        style={{
-                          background: '#000',
-                          padding: '16px',
-                          borderRadius: '60px',
-                          boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
-                        }}
-                      >
-                        {/* Phone body */}
-                        <div
-                          className="relative rounded-full overflow-hidden"
-                          style={{
-                            background: '#1a1a1a',
-                            borderRadius: '50px',
-                            aspectRatio: '9 / 19',
-                            overflow: 'hidden',
-                          }}
-                        >
-                          {/* Status bar */}
-                          <div
-                            className="absolute top-0 left-0 right-0 h-8 bg-white text-black text-xs flex justify-between items-center px-4 z-30"
-                            style={{ fontSize: '11px', fontWeight: '600' }}
-                          >
-                            <span>9:41</span>
-                            <div className="flex gap-1">
-                              <span>📶</span>
-                              <span>📡</span>
-                              <span>🔋</span>
-                            </div>
-                          </div>
-
-                          {/* Notch */}
-                          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-20" />
-
-                          {/* Screen content */}
-                          <div className="relative bg-slate-900 w-full h-full pt-10 overflow-hidden">
-                            <AnimatePresence mode="wait">
-                              <motion.div
-                                key={currentImage}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.5 }}
-                                className="absolute inset-0"
-                              >
-                                <img
-                                  src={mockupImages[currentImage]}
-                                  alt={`App mockup ${currentImage + 1}`}
-                                  className="w-full h-full object-cover"
-                                />
-                              </motion.div>
-                            </AnimatePresence>
-                          </div>
-
-                          {/* Home indicator */}
-                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-24 h-1 bg-black rounded-full z-20" />
-                        </div>
-                      </div>
-
-                      {/* Carousel indicators */}
-                      <div className="flex justify-center gap-2 mt-8">
-                        {mockupImages.map((_, idx) => (
-                          <motion.button
-                            key={idx}
-                            onClick={() => setCurrentImage(idx)}
-                            className="h-2 rounded-full transition-all"
-                            animate={{
-                              width: currentImage === idx ? 24 : 8,
-                              background: currentImage === idx ? '#0000cc' : 'rgba(255,255,255,0.3)',
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            </motion.div>
-
-            {/* Right Features */}
-            <motion.div className="space-y-16 hidden lg:block">
-              {rightFeatures.map((feature, idx) => {
-                const Icon = feature.icon;
-                return (
-                  <motion.div
-                    ref={(el) => setFeatureRef(el, idx + 3)}
-                    key={idx}
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: idx * 0.1 }}
-                    className="flex gap-4 flex-row-reverse relative z-10"
-                  >
-                    <div className="flex-shrink-0">
-                      <div
-                        className="flex items-center justify-center h-12 w-12 rounded-xl"
-                        style={{
-                          background: 'linear-gradient(135deg, #0055ff, #00ccff)',
-                        }}
-                      >
-                        <Icon size={24} className="text-white" />
-                      </div>
+                  {/* Mobile Bezel Mockup */}
+                  <div className="w-[180px] shrink-0 rounded-[30px] border-[5px] border-black bg-black shadow-2xl overflow-hidden relative aspect-[9/18]">
+                    {/* Notch */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-black rounded-b-xl z-20" />
+                    {/* Page image */}
+                    <div className="w-full h-full bg-slate-900">
+                      <img 
+                        src={mockupImages[activeTab].mob} 
+                        alt="Mobile Mockup" 
+                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                      />
                     </div>
-                    <div className="text-right">
-                      <h3 className="text-lg font-bold text-white mb-1">{feature.title}</h3>
-                      <p className="text-sm text-slate-400">{feature.description}</p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
+
+          {/* RIGHT: Feature Descriptions Deck (col-span-5) */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
+            <div>
+              <span className="neon-text text-cyan-400 font-extrabold tracking-widest uppercase text-xs block mb-3">
+                [ quality control ]
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-none mb-4">
+                Systems Built To Endure
+              </h2>
+              <p className="text-xs md:text-sm text-white/55 leading-relaxed">
+                We assign direct engineering expertise to ensure your database models scale, codebases stay clean, and services execute flawlessly.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {highlights.map((item, idx) => {
+                const ItemIcon = item.icon;
+                return (
+                  <div 
+                    key={idx} 
+                    className="bento-tile p-4 border border-white/5 hover:border-cyan-400/20 bg-white/[0.01] transition-all"
+                  >
+                    <div 
+                      className="w-8 h-8 rounded-lg flex items-center justify-center mb-3"
+                      style={{
+                        background: `${item.color}12`,
+                        border: `1px solid ${item.color}25`
+                      }}
+                    >
+                      <ItemIcon size={16} style={{ color: item.color }} />
+                    </div>
+                    <h4 className="text-xs font-bold text-white mb-1">{item.title}</h4>
+                    <p className="text-[10px] text-white/50 leading-relaxed">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

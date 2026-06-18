@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, X, AlertCircle, CheckCircle, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, X, AlertCircle, CheckCircle, Sparkles, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 
-// Import PeeTee Home Needs images
 import pt1 from '../images/Peeteehoneneeds/1.jpeg';
 import pt2 from '../images/Peeteehoneneeds/2.jpeg';
 import pt3 from '../images/Peeteehoneneeds/3.jpeg';
@@ -18,25 +17,25 @@ const cases = [
     solution: 'Engineered a unified e-commerce platform with a high-performance web dashboard and dedicated customer mobile applications.',
     impact: 'Successfully launched, driving over 500+ daily orders and reducing checkout delays by 60%.',
     tags: ['E-commerce', 'React Native', 'Node.js', 'PostgreSQL'],
-    color: '#0000cc',
+    color: '#00f0ff',
   },
   {
     category: 'AI Automation',
-    title: 'Automated Customer Support Retail Bot',
-    problem: 'Manual ticket handling taking 6+ hours/day with a 40% response error rate.',
-    solution: 'Built an LLM-powered support bot with product knowledge base, integrated with WhatsApp & email.',
+    title: 'Retail Support Agent Bot',
+    problem: 'Manual support ticket handling taking 6+ hours/day with a 40% response error rate.',
+    solution: 'Built a cognitive LLM-powered support bot with product knowledge base, integrated with WhatsApp & email.',
     impact: 'Saved 6+ hours/day, response error rate reduced to <1%.',
-    tags: ['LLMs', 'OpenAI', 'WhatsApp API', 'Customer Support'],
-    color: '#0055ff',
+    tags: ['LLMs', 'OpenAI API', 'WhatsApp API', 'Automation'],
+    color: '#a855f7',
   },
   {
     category: 'Custom Software',
-    title: 'Inventory Management SaaS Platform',
+    title: 'Warehouse SaaS Platform',
     problem: 'Excel-based tracking causing stockouts and zero real-time warehouse visibility.',
     solution: 'Full-stack SaaS with real-time inventory, auto reorders, and multi-location support.',
     impact: '100% real-time tracking, stockout incidents eliminated entirely.',
     tags: ['React', 'Node.js', 'PostgreSQL', 'Docker'],
-    color: '#0000cc',
+    color: '#fbbf24',
   },
 ];
 
@@ -47,45 +46,40 @@ export default function CaseStudies() {
 
   const peeteeImages = [pt1, pt2, pt3, pt4, pt5];
 
-  // Lock body scroll and listen for Escape key when any modal is active
   useEffect(() => {
     if (activeId !== null) {
       document.body.style.overflow = 'hidden';
       const handleKeyDown = (e) => {
-        if (e.key === 'Escape') {
-          handleClose();
-        }
+        if (e.key === 'Escape') setActiveId(null);
       };
       window.addEventListener('keydown', handleKeyDown);
       return () => {
         document.body.style.overflow = 'unset';
         window.removeEventListener('keydown', handleKeyDown);
       };
-    } else {
-      document.body.style.overflow = 'unset';
     }
+    document.body.style.overflow = 'unset';
   }, [activeId]);
 
-  const handleClose = () => {
-    setActiveId(null);
-  };
-
   return (
-    <section id="case-studies" className="relative z-10 py-28 px-4 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="section-title">Results We've Delivered</h2>
-          <p className="section-subtitle">
-            Real problems, real solutions, real numbers. Click on any card to reveal details.
-          </p>
-        </motion.div>
+    <section id="case-studies" className="relative py-28 px-4 md:px-8 overflow-hidden" style={{ background: '#050508' }}>
+      <div className="absolute inset-0 pointer-events-none opacity-5 cyber-grid" />
 
-        {/* 3D Flash Card Deck Grid (Straight Cards, Perfectly Aligned) */}
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <span className="neon-text text-cyan-400 font-extrabold tracking-widest uppercase text-xs block mb-3">
+            [ corporate case studies ]
+          </span>
+          <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-none">
+            Proven Business Outcomes
+          </h2>
+          <p className="section-subtitle max-w-xl mx-auto text-xs md:text-sm text-white/50">
+            Real problems, custom engineered software architectures, and measured performance metrics.
+          </p>
+        </div>
+
+        {/* Case Studies Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {cases.map((c, idx) => {
             const isThisActive = activeId === idx;
@@ -93,83 +87,75 @@ export default function CaseStudies() {
             return (
               <div
                 key={idx}
-                className="relative h-64 w-full flex items-center justify-center"
-                onMouseEnter={() => {
-                  setHoveredId(idx);
-                }}
-                onMouseLeave={() => {
-                  setHoveredId(null);
-                }}
+                className="relative h-72 w-full flex items-center justify-center"
+                onMouseEnter={() => setHoveredId(idx)}
+                onMouseLeave={() => setHoveredId(null)}
               >
-                {/* If active, show slot placeholder, else show the closed card */}
                 {isThisActive ? (
-                  <div className="w-full h-full rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/70 flex flex-col items-center justify-center p-4">
-                    <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">
-                      File Open
+                  <div className="w-full h-full rounded-3xl border border-dashed border-cyan-400/20 bg-white/[0.02] flex flex-col items-center justify-center p-4">
+                    <span className="text-[10px] font-mono text-cyan-400/50 uppercase tracking-widest">
+                      File Active
                     </span>
                   </div>
                 ) : (
                   <motion.div
                     layoutId={`card-${idx}`}
                     onClick={() => setActiveId(idx)}
-                    whileHover={{
-                      scale: 1.05,
-                    }}
-                    transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-                    className="w-full h-full cursor-pointer bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl border-2 border-slate-800 shadow-md p-6 flex flex-col justify-between items-center overflow-hidden relative"
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ type: 'spring', stiffness: 220, damping: 20 }}
+                    className="w-full h-full cursor-pointer bento-tile p-6 flex flex-col justify-between items-stretch overflow-hidden relative"
                   >
-                    {/* Holographic grid overlay */}
-                    <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:16px_24px] pointer-events-none" />
-
-                    {/* Radial glow */}
+                    <div className="absolute inset-0 opacity-10 cyber-grid pointer-events-none" />
+                    
+                    {/* Radial Glow */}
                     <div
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full blur-2xl pointer-events-none opacity-40 animate-pulse"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full blur-[80px] pointer-events-none opacity-20"
                       style={{ backgroundColor: c.color }}
                     />
 
-                    {/* Card Content (right-side up and readable) */}
-                    <div className="w-full flex justify-between items-start text-slate-400 font-mono text-[10px]">
-                      <span>CASE FILE</span>
-                      <span>0{idx + 1}</span>
+                    {/* Metadata Header */}
+                    <div className="flex justify-between items-center text-[9px] font-mono text-white/40">
+                      <span>CASE FILE // CONFIDENTIAL</span>
+                      <span>[ 0{idx + 1} ]</span>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center flex-grow text-center">
+                    {/* Content Core */}
+                    <div className="flex flex-col items-center text-center my-auto">
                       <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center mb-3 bg-slate-950/60 border"
+                        className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 bg-white/[0.02] border"
                         style={{ borderColor: `${c.color}30` }}
                       >
                         <Sparkles size={16} style={{ color: c.color }} />
                       </div>
-                      <h4 className="text-base font-black text-slate-200 tracking-widest uppercase mb-1">
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-cyan-400/80 mb-1">
                         {c.category}
-                      </h4>
-                      <h5 className="text-sm font-bold text-slate-400">
-                        {c.title}
-                      </h5>
-                      <span className="text-[10px] font-mono text-blue-400 tracking-wider mt-4 uppercase font-black">
-                        Click to enlarge
                       </span>
+                      <h3 className="text-base font-extrabold text-white leading-tight">
+                        {c.title}
+                      </h3>
                     </div>
 
-                    <div className="w-full flex justify-between items-end text-slate-500 font-mono text-[9px] opacity-40">
-                      <span>FS DECK</span>
-                      <span>CONFIDENTIAL</span>
+                    {/* Footer */}
+                    <div className="flex justify-between items-center text-[10px] text-white/30 pt-4 border-t border-white/5">
+                      <span>FS_DEPLOYMENT</span>
+                      <span className="flex items-center gap-1 text-cyan-400 font-bold">
+                        Analyze File <Eye size={12} />
+                      </span>
                     </div>
                   </motion.div>
                 )}
 
-                {/* Floating hint tooltip (right-side up) */}
+                {/* Hover Tooltip */}
                 <AnimatePresence>
                   {hoveredId === idx && !isThisActive && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute -bottom-5 left-1/2 -translate-x-1/2 z-30 bg-blue-600 text-white text-[10px] font-black tracking-widest uppercase px-4 py-1.5 rounded-full shadow-xl pointer-events-none flex items-center gap-1.5"
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute -bottom-4 left-1/2 -translate-x-1/2 z-30 bg-cyan-400 text-black text-[9px] font-extrabold tracking-widest uppercase px-4 py-2 rounded-full shadow-lg pointer-events-none flex items-center gap-1"
                     >
-                      <span>Open Case File</span>
-                      <ArrowRight size={11} className="animate-pulse" />
+                      <span>Examine Case</span>
+                      <ArrowRight size={10} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -178,227 +164,133 @@ export default function CaseStudies() {
           })}
         </div>
 
-        {/* Modal Backdrop and Card Detail View rendered via React Portal */}
-        {typeof document !== 'undefined' && createPortal(
+        {/* Portaled Detail Viewer Modal */}
+        {typeof document !== 'undefined' && activeId !== null && createPortal(
           <AnimatePresence>
-            {activeId !== null && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/75 backdrop-blur-md p-4 md:p-8 cursor-pointer"
-                onClick={handleClose}
-              >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 md:p-8 cursor-pointer"
+              onClick={() => setActiveId(null)}
+            >
               {activeId === 0 ? (
-                /* PeeTee Home Needs Customized Split-Backdrop Modal (Transparent Card Wrapper) */
+                /* PeeTee Home Needs Specific Layout */
                 <motion.div
                   layoutId={`card-0`}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.9, opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-                  style={{ background: 'transparent' }}
-                  className="w-full max-w-6xl h-[92vh] md:h-[85vh] relative cursor-default overflow-y-auto md:overflow-hidden flex flex-col md:flex-row gap-8 md:gap-12 items-center justify-center animate-none"
+                  className="w-full max-w-6xl h-[92vh] md:h-[85vh] relative cursor-default overflow-y-auto md:overflow-hidden flex flex-col md:flex-row gap-6 md:gap-10 items-stretch justify-center"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* Left Half: White card container for texts only (Broadened to 52%) */}
-                  <div className="w-full md:w-[52%] bg-white border border-slate-200/80 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col justify-start md:overflow-y-auto h-full scrollbar-thin relative text-slate-800">
-                    {/* Top glowing bar inside the card */}
-                    <div
-                      className="absolute top-0 left-0 right-0 h-1.5 rounded-t-3xl"
-                      style={{ background: `linear-gradient(to right, #0000cc, #0055ff)` }}
-                    />
-
-                    <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-md bg-blue-50 text-blue-600 border border-blue-100/50 self-start mt-2">
-                      {cases[0].category}
-                    </span>
-
-                    <h3 className="text-3xl font-black text-slate-900 mt-4 mb-2 leading-tight">
-                      {cases[0].title}
-                    </h3>
-                    <p className="text-sm text-slate-500 font-semibold mb-6">
-                      Web & Mobile E-Commerce Platform
-                    </p>
-
-                    <div className="space-y-4 pr-1">
-                      {/* Project Overview */}
-                      <div className="bg-slate-50 border border-slate-100 p-4 rounded-2xl">
-                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">
-                          Overview
-                        </p>
-                        <p className="text-sm text-slate-600 leading-relaxed">
-                          A full-scale grocery and home needs e-commerce ecosystem. Consists of customer mobile apps and an automated web shop for optimized shopping and tracking.
-                        </p>
-                      </div>
-
-                      {/* The Problem */}
-                      <div className="bg-slate-50/40 border border-slate-100 border-l-2 border-l-slate-400 p-4 rounded-r-2xl rounded-l-md flex gap-3.5 items-start">
-                        <div className="text-slate-600 flex-shrink-0 mt-0.5">
-                          <AlertCircle size={16} />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-0.5">
-                            The Challenge
-                          </p>
-                          <p className="text-sm text-slate-700 leading-relaxed">
-                            {cases[0].problem}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Our Solution */}
-                      <div className="bg-slate-50/40 border border-slate-100 border-l-2 border-l-slate-600 p-4 rounded-r-2xl rounded-l-md flex gap-3.5 items-start">
-                        <div className="text-slate-600 flex-shrink-0 mt-0.5">
-                          <CheckCircle size={16} />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-0.5">
-                            Our Solution
-                          </p>
-                          <p className="text-sm text-slate-700 leading-relaxed">
-                            {cases[0].solution}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Impact / Results */}
-                      <div className="bg-slate-50/40 border border-slate-100 border-l-2 border-l-slate-800 p-4 rounded-r-2xl rounded-l-md flex gap-3.5 items-start">
-                        <div className="text-slate-800 flex-shrink-0 mt-0.5">
-                          <Sparkles size={16} />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest mb-0.5">
-                            The Business Impact
-                          </p>
-                          <p className="text-sm text-slate-700 leading-relaxed font-bold">
-                            {cases[0].impact}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Tech Stack */}
-                    <div className="mt-6 mb-8">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
-                        Technology Stack
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {cases[0].tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 bg-slate-100 border border-slate-200/60 rounded-md text-xs font-semibold text-slate-600"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Bottom CTA within text card */}
-                    <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs text-slate-400 font-medium">
-                        Want similar results?
+                  {/* Left Column: Case details */}
+                  <div 
+                    className="w-full md:w-[50%] bento-tile p-6 md:p-10 flex flex-col justify-between overflow-y-auto h-full scrollbar-thin"
+                    style={{ background: 'rgba(10, 10, 15, 0.95)', borderColor: 'rgba(0, 240, 255, 0.15)' }}
+                  >
+                    <div>
+                      <span className="text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/25 self-start">
+                        {cases[0].category}
                       </span>
-                      <a
-                        href="#contact"
-                        onClick={handleClose}
-                        className="btn-primary"
-                      >
-                        Discuss Project <ArrowRight size={14} />
-                      </a>
+                      <h3 className="text-2xl font-black text-white mt-4 mb-2">{cases[0].title}</h3>
+                      <p className="text-xs text-white/50 mb-6 font-mono">[ E-Commerce Deploy Schema ]</p>
+
+                      <div className="space-y-4">
+                        <div className="bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-white/40 block mb-1">Challenge</span>
+                          <p className="text-xs text-white/80 leading-relaxed">{cases[0].problem}</p>
+                        </div>
+
+                        <div className="bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-white/40 block mb-1">Solution Blueprint</span>
+                          <p className="text-xs text-white/80 leading-relaxed">{cases[0].solution}</p>
+                        </div>
+
+                        <div className="bg-cyan-500/5 border border-cyan-500/20 p-4 rounded-2xl">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-cyan-400 block mb-1">Business Impact</span>
+                          <p className="text-xs text-white leading-relaxed font-bold">{cases[0].impact}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-8 border-t border-white/5 pt-6 flex flex-col gap-4">
+                      <div>
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-white/40 block mb-2">Technologies Used</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {cases[0].tags.map((tag) => (
+                            <span key={tag} className="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[10px] text-white/80 font-mono">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between mt-4">
+                        <span className="text-[11px] text-white/40">Deploy identical stack?</span>
+                        <a href="#contact" onClick={() => setActiveId(null)} className="btn-primary py-2 px-5 text-xs">
+                          Brief Engineers →
+                        </a>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Right Half: Horizontal Stacked Cards Carousel floating in blurred background (Width: 48%) */}
-                  <div className="w-full md:w-[48%] flex flex-col items-center justify-center relative min-h-[420px] md:min-h-0 h-full overflow-visible py-8">
-                    <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-[10px] font-mono text-white/80">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                      <span>E-Commerce Platform Mockups</span>
+                  {/* Right Column: Screenshot Carousel */}
+                  <div className="w-full md:w-[50%] bento-tile p-6 flex flex-col items-center justify-between h-full relative overflow-hidden bg-black/40">
+                    <div className="absolute inset-0 opacity-10 cyber-grid pointer-events-none" />
+
+                    <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[9px] font-mono text-white/70">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                      <span>Sitemap Mockup Display</span>
                     </div>
 
-                    {/* Container width and height sized for horizontal screens (Enlarged) */}
-                    <div className="relative w-80 h-50 md:w-[580px] md:h-[370px] flex items-center justify-center overflow-visible">
+                    <div className="relative w-full flex-1 flex items-center justify-center overflow-visible">
                       {peeteeImages.map((imgSrc, imgIdx) => {
                         const position = (imgIdx - topIndex + 5) % 5;
-
-                        // Layout calculation for straight horizontal cards stacked cleanly
-                        const scale = 1 - position * 0.055;
-                        const translateY = position * 14;
-                        const translateX = position * 12;
-
-                        const opacity = position === 0 ? 1 : position === 1 ? 0.85 : position === 2 ? 0.65 : position === 3 ? 0.45 : 0.25;
-                        const zIndex = peeteeImages.length - position;
-
-                        const isGoingToBack = position === 4;
+                        const scale = 1 - position * 0.08;
+                        const translateX = position * 18;
+                        const translateY = position * 12;
+                        const opacity = position === 0 ? 1 : position === 1 ? 0.7 : position === 2 ? 0.4 : 0.15;
+                        const zIdx = 10 - position;
 
                         return (
                           <motion.div
                             key={imgIdx}
-                            className="absolute w-80 h-50 md:w-[560px] md:h-[350px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-transparent p-0"
-                            style={{
-                              zIndex,
-                              transformOrigin: 'bottom center',
+                            className="absolute w-[240px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+                            style={{ zIndex: zIdx }}
+                            animate={{
+                              x: translateX,
+                              y: translateY,
+                              scale,
+                              opacity,
                             }}
-                            animate={
-                              isGoingToBack
-                                ? {
-                                    x: [null, -380, translateX],
-                                    y: [null, -15, translateY],
-                                    scale: [null, 1.02, scale],
-                                    opacity: [null, 0.9, opacity],
-                                  }
-                                : {
-                                    x: translateX,
-                                    y: translateY,
-                                    scale,
-                                    opacity,
-                                    rotate: 0,
-                                  }
-                            }
-                            transition={
-                              isGoingToBack
-                                ? {
-                                    duration: 0.65,
-                                    times: [0, 0.45, 1],
-                                    ease: 'easeInOut',
-                                  }
-                                : {
-                                    duration: 0.45,
-                                    ease: [0.25, 1, 0.5, 1],
-                                  }
-                            }
+                            transition={{ duration: 0.4, ease: 'easeOut' }}
                           >
                             <img
                               src={imgSrc}
-                              alt={`PeeTee Home Needs Screenshot ${imgIdx + 1}`}
-                              className="w-full h-full object-cover rounded-2xl"
+                              alt={`PeeTee screen ${imgIdx + 1}`}
+                              className="w-full h-auto object-contain rounded-2xl max-h-[480px]"
                             />
                           </motion.div>
                         );
                       })}
                     </div>
 
-                    {/* Navigation Buttons for manual control */}
-                    <div className="flex gap-4 mt-8 z-10">
+                    <div className="flex gap-4 mt-6 z-10">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setTopIndex((prev) => (prev - 1 + 5) % 5);
+                          setTopIndex((p) => (p - 1 + 5) % 5);
                         }}
-                        className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/25 hover:border-white/50 transition-all shadow-xl active:scale-95"
-                        aria-label="Previous image"
+                        className="p-3 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10"
                       >
-                        <ChevronLeft size={20} className="stroke-[2.5]" />
+                        <ChevronLeft size={16} />
                       </button>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setTopIndex((prev) => (prev + 1) % 5);
+                          setTopIndex((p) => (p + 1) % 5);
                         }}
-                        className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/25 hover:border-white/50 transition-all shadow-xl active:scale-95"
-                        aria-label="Next image"
+                        className="p-3 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10"
                       >
-                        <ChevronRight size={20} className="stroke-[2.5]" />
+                        <ChevronRight size={16} />
                       </button>
                     </div>
                   </div>
@@ -407,11 +299,8 @@ export default function CaseStudies() {
                 /* Standard Modal for other cases */
                 <motion.div
                   layoutId={`card-${activeId}`}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.9, opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-                  className="bg-white border border-slate-200 shadow-2xl rounded-3xl p-8 max-w-xl w-full relative cursor-default overflow-hidden text-slate-800"
+                  className="bento-tile p-6 md:p-10 max-w-xl w-full relative cursor-default"
+                  style={{ background: 'rgba(10, 10, 15, 0.95)', borderColor: 'rgba(0, 240, 255, 0.15)' }}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div
@@ -421,131 +310,78 @@ export default function CaseStudies() {
 
                   <div className="mt-2">
                     <span
-                      className="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-md"
-                      style={{
-                        background: `${cases[activeId].color}12`,
-                        color: cases[activeId].color,
-                        border: `1px solid ${cases[activeId].color}20`
-                      }}
+                      className="text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded bg-white/5 border border-white/10"
+                      style={{ color: cases[activeId].color }}
                     >
                       {cases[activeId].category}
                     </span>
 
-                    <h3 className="text-2xl font-black text-slate-900 mt-4 mb-6 leading-tight">
-                      {cases[activeId].title}
-                    </h3>
+                    <h3 className="text-xl font-black text-white mt-4 mb-6">{cases[activeId].title}</h3>
 
                     <div className="space-y-4">
-                      {/* Problem */}
-                      <div className="bg-slate-50/40 border border-slate-100 border-l-2 border-l-slate-400 p-4 rounded-r-2xl rounded-l-md flex gap-3.5 items-start">
-                        <div className="text-slate-600 flex-shrink-0 mt-0.5">
-                          <AlertCircle size={16} />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-0.5">
-                            The Challenge
-                          </p>
-                          <p className="text-sm text-slate-700 leading-relaxed">
-                            {cases[activeId].problem}
-                          </p>
-                        </div>
+                      <div className="bg-white/[0.02] border border-white/5 p-4 rounded-xl">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-white/40 block mb-1">Challenge</span>
+                        <p className="text-xs text-white/80 leading-relaxed">{cases[activeId].problem}</p>
                       </div>
 
-                      {/* Solution */}
-                      <div className="bg-slate-50/40 border border-slate-100 border-l-2 border-l-slate-600 p-4 rounded-r-2xl rounded-l-md flex gap-3.5 items-start">
-                        <div className="text-slate-600 flex-shrink-0 mt-0.5">
-                          <CheckCircle size={16} />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-0.5">
-                            Our Solution
-                          </p>
-                          <p className="text-sm text-slate-700 leading-relaxed">
-                            {cases[activeId].solution}
-                          </p>
-                        </div>
+                      <div className="bg-white/[0.02] border border-white/5 p-4 rounded-xl">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-white/40 block mb-1">Solution</span>
+                        <p className="text-xs text-white/80 leading-relaxed">{cases[activeId].solution}</p>
                       </div>
 
-                      {/* Impact */}
-                      <div className="bg-slate-50/40 border border-slate-100 border-l-2 border-l-slate-800 p-4 rounded-r-2xl rounded-l-md flex gap-3.5 items-start">
-                        <div className="text-slate-800 flex-shrink-0 mt-0.5">
-                          <Sparkles size={16} />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest mb-0.5">
-                            The Business Impact
-                          </p>
-                          <p className="text-sm text-slate-700 leading-relaxed font-bold">
-                            {cases[activeId].impact}
-                          </p>
-                        </div>
+                      <div className="bg-cyan-500/5 border border-cyan-500/20 p-4 rounded-xl">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-cyan-400 block mb-1">Business Impact</span>
+                        <p className="text-xs text-white leading-relaxed font-bold">{cases[activeId].impact}</p>
                       </div>
                     </div>
 
-                    <div className="mt-6">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
-                        Technology Stack
-                      </p>
-                      <div className="flex flex-wrap gap-2">
+                    <div className="mt-6 border-t border-white/5 pt-6">
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-white/40 block mb-2">Stack Config</span>
+                      <div className="flex flex-wrap gap-1.5">
                         {cases[activeId].tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 bg-slate-100 border border-slate-200/60 rounded-md text-xs font-semibold text-slate-600"
-                          >
+                          <span key={tag} className="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[10px] text-white/80 font-mono">
                             {tag}
                           </span>
                         ))}
                       </div>
                     </div>
 
-                    <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs text-slate-400 font-medium">
-                        Want similar results?
-                      </span>
-                      <a
-                        href="#contact"
-                        onClick={handleClose}
-                        className="btn-primary"
-                      >
-                        Discuss Project <ArrowRight size={14} />
+                    <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between">
+                      <span className="text-[11px] text-white/40">Want similar results?</span>
+                      <a href="#contact" onClick={() => setActiveId(null)} className="btn-primary py-2 px-5 text-xs">
+                        Discuss Project →
                       </a>
                     </div>
                   </div>
                 </motion.div>
               )}
 
-              {/* Floating Black Exit Button at top right of viewport backdrop */}
+              {/* Close Button */}
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleClose();
-                }}
-                className="absolute top-4 right-4 md:top-8 md:right-8 p-3 rounded-full bg-white text-black border-2 border-black hover:bg-slate-100 transition-all z-50 shadow-xl"
-                aria-label="Close modal"
+                onClick={() => setActiveId(null)}
+                className="absolute top-4 right-4 md:top-8 md:right-8 p-3 rounded-full bg-white/5 text-white/60 hover:text-white border border-white/10 backdrop-blur-md"
               >
-                <X size={22} className="text-black stroke-[3]" />
+                <X size={16} />
               </button>
             </motion.div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
+          </AnimatePresence>,
+          document.body
+        )}
 
         {/* CTA banner */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mt-14 glass-card p-8 md:flex items-center justify-between gap-6"
-          style={{ borderColor: 'rgba(0, 0, 204, 0.15)' }}
+          className="mt-14 bento-tile p-8 md:flex items-center justify-between gap-6"
+          style={{ borderColor: 'rgba(0, 240, 255, 0.15)' }}
         >
           <div>
-            <h3 className="text-xl font-bold text-slate-800 mb-1">Ready to be our next success story?</h3>
-            <p className="text-slate-600 text-sm">Let's talk about your project and how we can deliver results like these.</p>
+            <h3 className="text-lg font-bold text-white mb-1">Ready to be our next success story?</h3>
+            <p className="text-white/50 text-xs">Let's talk about your project and how we can deliver results like these.</p>
           </div>
-          <a href="#contact" data-cursor="link" className="btn-primary mt-4 md:mt-0 whitespace-nowrap">
-            Start a Project <ArrowRight size={16} />
+          <a href="#contact" className="btn-primary mt-4 md:mt-0 whitespace-nowrap py-3 text-xs">
+            Start a Project <ArrowRight size={14} />
           </a>
         </motion.div>
       </div>

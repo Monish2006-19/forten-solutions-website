@@ -1,28 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, X, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowRight, Send, CheckCircle2, AlertCircle, Clock, ShieldCheck, Mail } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { CONTACT_EMAIL } from '../constants';
 
 const HEAR_OPTIONS = [
-  'Google Search', 'LinkedIn', 'Referral from colleague', 'Social Media',
-  'Tech conference / Event', 'GitHub', 'Other',
+  'Google Search', 'LinkedIn', 'Referral', 'GitHub', 'Other'
+];
+
+const SERVICE_OPTIONS = [
+  'Custom Software', 'AI & Automation', 'API Integrations', 'Consulting & Strategy'
 ];
 
 export default function ContactCTA() {
-  const [formOpen, setFormOpen]   = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading]     = useState(false);
+  const [loading, setLoading] = useState(false);
   const [sendError, setSendError] = useState(null);
   const [form, setForm] = useState({
     name: '', email: '', phone: '', service: '', message: '', source: '',
   });
 
+  const [time, setTime] = useState('');
+
+  // Local clock tracker
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }));
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
+  const selectOption = (field, val) => {
+    setForm((prev) => ({ ...prev, [field]: val }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!form.service) {
+      setSendError('Please select a service type.');
+      return;
+    }
     setLoading(true);
     setSendError(null);
 
@@ -47,385 +70,228 @@ export default function ContactCTA() {
       })
       .catch((err) => {
         setLoading(false);
-        setSendError(err?.text || 'Failed to send. Please try again.');
+        setSendError(err?.text || 'Transmission failure. Please re-try.');
       });
   };
 
-  const handleClose = () => {
-    setFormOpen(false);
-    setSendError(null);
-    if (submitted) {
-      setTimeout(() => {
-        setSubmitted(false);
-        setForm({ name: '', email: '', phone: '', service: '', message: '', source: '' });
-      }, 400);
-    }
+  const resetForm = () => {
+    setForm({ name: '', email: '', phone: '', service: '', message: '', source: '' });
+    setSubmitted(false);
   };
 
   return (
-    <section
-      id="contact"
-      className="relative z-10 overflow-hidden"
-      style={{ minHeight: 640 }}
-    >
-      <div className="flex flex-col lg:flex-row" style={{ minHeight: 640 }}>
+    <section id="contact" className="relative py-28 px-4 md:px-8 overflow-hidden" style={{ background: '#050508' }}>
+      <div className="absolute inset-0 pointer-events-none opacity-5 cyber-grid" />
 
-        {/* ── LEFT PANEL — always visible blue CTA ── */}
-        <div
-          className="relative flex flex-col justify-center px-10 md:px-16 py-20 lg:py-24"
-          style={{
-            background: 'linear-gradient(135deg, #000099 0%, #0000cc 55%, #0018ff 100%)',
-            flex: '0 0 44%',
-            minHeight: 500,
-          }}
-        >
-          {/* Subtle dot grid overlay */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)',
-              backgroundSize: '28px 28px',
-            }}
-          />
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          {/* LEFT: Metadata Briefing panel (col-span-5) */}
+          <div className="lg:col-span-5 bento-tile p-8 md:p-10 flex flex-col justify-between min-h-[400px]">
+            <div className="absolute inset-0 opacity-10 cyber-grid pointer-events-none" />
 
-          {/* Vertical accent line */}
-          <div
-            className="absolute top-0 bottom-0 right-0 w-px"
-            style={{ background: 'rgba(255,255,255,0.08)' }}
-          />
+            <div>
+              <span className="neon-text text-cyan-400 font-extrabold tracking-widest uppercase text-xs block mb-3">
+                [ transmit inquiry ]
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-[1.05] mb-6">
+                Build the future with certainty.
+              </h2>
+              <p className="text-xs md:text-sm text-white/55 leading-relaxed mb-8">
+                Every enterprise partnership begins with structured requirements. Tell us what modules you require, and we will initiate architectural reviews within 24 hours.
+              </p>
 
-          <div className="relative z-10 max-w-md">
-            {/* Eyebrow */}
-            <div
-              className="inline-flex items-center gap-2 mb-5 text-[11px] font-semibold uppercase tracking-widest"
-              style={{ color: 'rgba(219,234,254,0.8)' }}
-            >
-              <span className="w-5 h-px" style={{ background: 'rgba(219,234,254,0.5)' }} />
-              Start Your Project Today
+              {/* Status metrics */}
+              <div className="space-y-4 border-t border-white/5 pt-6">
+                <div className="flex items-center gap-3 text-xs text-white/70">
+                  <Clock size={14} className="text-cyan-400" />
+                  <span>HQ Time: <b className="text-white font-mono">{time} IST</b></span>
+                </div>
+                <div className="flex items-center gap-3 text-xs text-white/70">
+                  <ShieldCheck size={14} className="text-purple-400" />
+                  <span>Security: <b className="text-white">Mutual NDA Active on Request</b></span>
+                </div>
+                <div className="flex items-center gap-3 text-xs text-white/70">
+                  <Mail size={14} className="text-yellow-400" />
+                  <span>Primary: <b className="text-white">{CONTACT_EMAIL}</b></span>
+                </div>
+              </div>
             </div>
 
-            {/* Headline */}
-            <h2
-              className="font-black text-white leading-[1.04] mb-5"
-              style={{ fontSize: 'clamp(2.5rem, 4.2vw, 3.8rem)' }}
-            >
-              Build the future<br />with certainty.
-            </h2>
-
-            {/* Sub */}
-            <p
-              className="text-base md:text-[17px] leading-relaxed mb-12 opacity-90"
-              style={{ color: 'rgba(219,234,254,0.75)' }}
-            >
-              Every outcome starts with a conversation. Tell us what you're building and we'll respond within 24 hours.
-            </p>
-
-            {/* CTA button */}
-            <motion.button
-              onClick={() => setFormOpen(true)}
-              className="flex items-center gap-4 group"
-              whileHover="hover"
-            >
-              <span
-                className="text-lg md:text-xl font-bold text-white"
-                style={{ letterSpacing: '-0.01em' }}
-              >
-                Let's talk
-              </span>
-              <motion.div
-                variants={{ hover: { scale: 1.12, x: 3 } }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                className="w-11 h-11 rounded-full flex items-center justify-center"
-                style={{
-                  background: 'rgba(255,255,255,0.15)',
-                  border: '1.5px solid rgba(255,255,255,0.4)',
-                }}
-              >
-                <ArrowRight size={18} color="white" />
-              </motion.div>
-            </motion.button>
-
-            {/* Trust chips */}
-            <div className="flex flex-wrap gap-2 mt-12">
-              {['< 24h response', 'Fixed-price contracts', 'NDA on request'].map((chip) => (
-                <span
-                  key={chip}
-                  className="px-3 py-1 rounded-full text-[11px] font-medium"
-                  style={{
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    color: 'rgba(255,255,255,0.8)',
-                  }}
-                >
-                  {chip}
+            {/* Chips */}
+            <div className="flex flex-wrap gap-2 mt-8">
+              {['< 24h SLA Response', 'Fixed-Price Contracts', 'Telemetry Reports'].map((c) => (
+                <span key={c} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-semibold text-white/60">
+                  {c}
                 </span>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* ── RIGHT PANEL — photo base + sliding form overlay ── */}
-        <div className="relative flex-1 overflow-hidden" style={{ minHeight: 500 }}>
-          {/* Background photo — always present */}
-          <img
-            src="/team-meeting.png"
-            alt="Forten Solutions team"
-            className="absolute inset-0 w-full h-full object-cover"
-            draggable={false}
-          />
-          {/* Subtle dark scrim so text is legible when dimmed */}
-          <div
-            className="absolute inset-0 transition-opacity duration-500"
-            style={{ background: 'rgba(11,15,25,0.35)', opacity: formOpen ? 1 : 0 }}
-          />
+          {/* RIGHT: Console Form Panel (col-span-7) */}
+          <div className="lg:col-span-7 bento-tile p-6 md:p-10 relative">
+            <div className="absolute inset-0 opacity-10 cyber-grid pointer-events-none" />
 
-          {/* ── Form slide panel — enters from LEFT ── */}
-          <AnimatePresence>
-            {formOpen && (
-              <motion.div
-                key="form-panel"
-                initial={{ x: '-100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '-100%' }}
-                transition={{ type: 'spring', stiffness: 280, damping: 34 }}
-                className="absolute inset-0 overflow-y-auto"
-                style={{
-                  background: '#0D1117',
-                  borderLeft: '1px solid #1E293B',
-                }}
-              >
-                {/* Close button */}
-                <button
-                  onClick={handleClose}
-                  className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center transition-colors z-20"
-                  style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid #222F43',
-                    color: '#64748B',
-                  }}
-                  aria-label="Close form"
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-full flex flex-col items-center justify-center text-center py-16"
                 >
-                  <X size={14} />
-                </button>
+                  <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center mb-5 text-green-400">
+                    <CheckCircle2 size={32} />
+                  </div>
+                  <h3 className="text-lg font-black text-white mb-2">Transmission Successful</h3>
+                  <p className="text-xs text-white/55 max-w-xs leading-relaxed mb-8">
+                    Your briefing packet has been catalogued. An engineer will coordinate contact within 24 hours.
+                  </p>
+                  <button onClick={resetForm} className="btn-outline py-2.5 px-6 text-xs">
+                    ← Transmit New Packet
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  onSubmit={handleSubmit}
+                  className="space-y-5"
+                >
+                  <div className="border-b border-white/5 pb-3 mb-4 flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-white/40 uppercase">Console Briefing Form</span>
+                    <span className="text-[9px] text-cyan-400 font-mono">* Required inputs</span>
+                  </div>
 
-                <div className="px-8 py-10 md:px-12">
-                  {submitted ? (
-                    /* ── Success state ── */
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="flex flex-col items-center justify-center text-center py-16"
-                    >
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: 'spring', stiffness: 250, delay: 0.1 }}
-                        className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
-                        style={{
-                          background: 'rgba(6,182,212,0.1)',
-                          border: '1px solid rgba(6,182,212,0.3)',
-                        }}
-                      >
-                        <CheckCircle2 size={30} style={{ color: '#06B6D4' }} />
-                      </motion.div>
-                      <h3 className="text-xl font-bold text-white mb-2">We've got your message!</h3>
-                      <p className="text-[14px] mb-8" style={{ color: '#B8C0CC' }}>
-                        Our team will reach out within 24 hours to kick off the conversation.
-                      </p>
-                      <button onClick={handleClose} className="btn-outline text-sm">
-                        ← Back
-                      </button>
-                    </motion.div>
-                  ) : (
-                    /* ── Form ── */
-                    <>
-                      <div className="mb-7">
-                        <h3 className="text-2xl font-black text-white mb-1">
-                          Ready to Pursue Opportunity?
-                        </h3>
-                        <p className="text-[13px]" style={{ color: '#64748B' }}>
-                          Every outcome starts with a conversation
-                        </p>
-                      </div>
+                  {/* Name & Email inputs side-by-side */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-white/40 font-mono uppercase">Your Name *</label>
+                      <input
+                        name="name"
+                        value={form.name}
+                        onChange={handleChange}
+                        required
+                        placeholder="John Doe"
+                        className="w-full bg-black/60 border border-white/10 hover:border-white/20 focus:border-cyan-400 rounded-xl px-4 py-3 text-xs text-white outline-none transition-all"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-white/40 font-mono uppercase">Email Address *</label>
+                      <input
+                        name="email"
+                        type="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="john@example.com"
+                        className="w-full bg-black/60 border border-white/10 hover:border-white/20 focus:border-cyan-400 rounded-xl px-4 py-3 text-xs text-white outline-none transition-all"
+                      />
+                    </div>
+                  </div>
 
-                      <form onSubmit={handleSubmit} className="space-y-3.5">
-                        {/* Name */}
-                        <input
-                          name="name"
-                          value={form.name}
-                          onChange={handleChange}
-                          required
-                          placeholder="Your name *"
-                          className="w-full px-4 py-3 rounded-xl text-[13.5px] outline-none transition-all duration-200"
-                          style={{
-                            background: 'rgba(255,255,255,0.04)',
-                            border: '1px solid #1E293B',
-                            color: '#FFFFFF',
-                          }}
-                          onFocus={(e) => (e.target.style.borderColor = 'rgba(37,99,235,0.5)')}
-                          onBlur={(e) => (e.target.style.borderColor = '#1E293B')}
-                        />
-
-                        {/* Email */}
-                        <input
-                          name="email"
-                          type="email"
-                          value={form.email}
-                          onChange={handleChange}
-                          required
-                          placeholder="Email address *"
-                          className="w-full px-4 py-3 rounded-xl text-[13.5px] outline-none transition-all duration-200"
-                          style={{
-                            background: 'rgba(255,255,255,0.04)',
-                            border: '1px solid #1E293B',
-                            color: '#FFFFFF',
-                          }}
-                          onFocus={(e) => (e.target.style.borderColor = 'rgba(37,99,235,0.5)')}
-                          onBlur={(e) => (e.target.style.borderColor = '#1E293B')}
-                        />
-
-                        {/* Phone */}
-                        <div className="grid grid-cols-[120px_1fr] gap-3">
-                          <input
-                            placeholder="+91"
-                            className="px-4 py-3 rounded-xl text-[13.5px] outline-none transition-all duration-200"
-                            style={{
-                              background: 'rgba(255,255,255,0.04)',
-                              border: '1px solid #1E293B',
-                              color: '#FFFFFF',
-                            }}
-                            readOnly
-                          />
-                          <input
-                            name="phone"
-                            type="tel"
-                            value={form.phone}
-                            onChange={handleChange}
-                            placeholder="Phone number"
-                            className="w-full px-4 py-3 rounded-xl text-[13.5px] outline-none transition-all duration-200"
-                            style={{
-                              background: 'rgba(255,255,255,0.04)',
-                              border: '1px solid #1E293B',
-                              color: '#FFFFFF',
-                            }}
-                            onFocus={(e) => (e.target.style.borderColor = 'rgba(37,99,235,0.5)')}
-                            onBlur={(e) => (e.target.style.borderColor = '#1E293B')}
-                          />
-                        </div>
-
-                        {/* Service Needed */}
-                        <select
-                          name="service"
-                          value={form.service}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-xl text-[13.5px] outline-none transition-all duration-200 appearance-none"
-                          style={{
-                            background: 'rgba(255,255,255,0.04)',
-                            border: '1px solid #1E293B',
-                            color: form.service ? '#FFFFFF' : '#475569',
-                            cursor: 'pointer',
-                          }}
-                          onFocus={(e) => (e.target.style.borderColor = 'rgba(37,99,235,0.5)')}
-                          onBlur={(e) => (e.target.style.borderColor = '#1E293B')}
-                        >
-                          <option value="" style={{ background: '#0D1117' }}>Service needed...</option>
-                          {['Custom Software Development', 'AI & Automation', 'Web Application', 'Mobile Application', 'Project Maintenance', 'Tech Consulting'].map((s) => (
-                            <option key={s} value={s} style={{ background: '#0D1117', color: '#fff' }}>{s}</option>
-                          ))}
-                        </select>
-
-                        {/* Message */}
-                        <textarea
-                          name="message"
-                          value={form.message}
-                          onChange={handleChange}
-                          required
-                          rows={4}
-                          placeholder="Tell us about your project — what are you building? Any timeline or budget in mind? *"
-                          className="w-full px-4 py-3 rounded-xl text-[13.5px] outline-none transition-all duration-200 resize-none"
-                          style={{
-                            background: 'rgba(255,255,255,0.04)',
-                            border: '1px solid #1E293B',
-                            color: '#FFFFFF',
-                          }}
-                          onFocus={(e) => (e.target.style.borderColor = 'rgba(37,99,235,0.5)')}
-                          onBlur={(e) => (e.target.style.borderColor = '#1E293B')}
-                        />
-
-                        {/* Source */}
-                        <select
-                          name="source"
-                          value={form.source}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-xl text-[13.5px] outline-none transition-all duration-200 appearance-none"
-                          style={{
-                            background: 'rgba(255,255,255,0.04)',
-                            border: '1px solid #1E293B',
-                            color: form.source ? '#FFFFFF' : '#475569',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          <option value="" style={{ background: '#0D1117' }}>How did you hear about us?</option>
-                          {HEAR_OPTIONS.map((opt) => (
-                            <option key={opt} value={opt} style={{ background: '#0D1117', color: '#fff' }}>
-                              {opt}
-                            </option>
-                          ))}
-                        </select>
-
-                        {/* Error */}
-                        {sendError && (
-                          <div
-                            className="flex items-start gap-2 px-4 py-3 rounded-xl text-[12.5px]"
-                            style={{
-                              background: 'rgba(239,68,68,0.05)',
-                              border: '1px solid rgba(239,68,68,0.15)',
-                              color: '#EF4444',
-                            }}
+                  {/* Phone & Hear About Us */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-white/40 font-mono uppercase">Phone (with country code)</label>
+                      <input
+                        name="phone"
+                        type="tel"
+                        value={form.phone}
+                        onChange={handleChange}
+                        placeholder="+91 98765 43210"
+                        className="w-full bg-black/60 border border-white/10 hover:border-white/20 focus:border-cyan-400 rounded-xl px-4 py-3 text-xs text-white outline-none transition-all"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-white/40 font-mono uppercase">How did you hear about us?</label>
+                      <div className="flex flex-wrap gap-1.5 mt-1">
+                        {HEAR_OPTIONS.map((opt) => (
+                          <button
+                            type="button"
+                            key={opt}
+                            onClick={() => selectOption('source', opt)}
+                            className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold border transition-all duration-300 ${
+                              form.source === opt 
+                                ? 'bg-cyan-500/10 border-cyan-400/30 text-cyan-400' 
+                                : 'border-white/5 bg-white/[0.01] text-white/60 hover:text-white hover:bg-white/[0.02]'
+                            }`}
                           >
-                            <AlertCircle size={14} className="mt-0.5 shrink-0" />
-                            {sendError}
-                          </div>
-                        )}
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
 
-                        {/* Submit */}
-                        <motion.button
-                          type="submit"
-                          disabled={loading}
-                          className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-[14px] transition-all duration-200 disabled:opacity-60"
-                          style={{ background: '#2563EB', color: '#fff' }}
-                          whileHover={{ background: '#1D4ED8' }}
-                          whileTap={{ scale: 0.98 }}
+                  {/* Service Needed Selection */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[9px] text-white/40 font-mono uppercase">Select Service Type *</label>
+                    <div className="flex flex-wrap gap-2">
+                      {SERVICE_OPTIONS.map((svc) => (
+                        <button
+                          type="button"
+                          key={svc}
+                          onClick={() => selectOption('service', svc)}
+                          className={`px-3 py-2 rounded-xl text-[10px] font-bold border transition-all duration-300 ${
+                            form.service === svc 
+                              ? 'bg-cyan-500/10 border-cyan-400/30 text-cyan-400' 
+                              : 'border-white/5 bg-white/[0.01] text-white/60 hover:text-white hover:bg-white/[0.02]'
+                          }`}
                         >
-                          {loading ? (
-                            <>
-                              <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ repeat: Infinity, duration: 0.75, ease: 'linear' }}
-                                className="w-4 h-4 rounded-full border-t-transparent border-2 border-white"
-                              />
-                              Sending...
-                            </>
-                          ) : (
-                            <>
-                              Submit Enquiry
-                              <Send size={14} />
-                            </>
-                          )}
-                        </motion.button>
+                          {svc}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-                        <p className="text-center text-[11px]" style={{ color: '#334155' }}>
-                          By submitting you agree to our privacy policy. We never share your data.
-                        </p>
-                      </form>
-                    </>
+                  {/* Message */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[9px] text-white/40 font-mono uppercase">Project Brief *</label>
+                    <textarea
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      required
+                      rows={4}
+                      placeholder="Outline details, features, integration complexity, or timeline specifications..."
+                      className="w-full bg-black/60 border border-white/10 hover:border-white/20 focus:border-cyan-400 rounded-xl px-4 py-3 text-xs text-white outline-none transition-all resize-none"
+                    />
+                  </div>
+
+                  {/* Error diagnostics */}
+                  {sendError && (
+                    <div className="flex items-start gap-2 p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl">
+                      <AlertCircle size={14} className="shrink-0 mt-0.5" />
+                      <span>{sendError}</span>
+                    </div>
                   )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
 
+                  {/* Submit Button */}
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="btn-primary w-full justify-center py-3.5 text-xs font-semibold"
+                    >
+                      {loading ? (
+                        <span className="flex items-center gap-2">
+                          <span className="w-3.5 h-3.5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                          Transmitting packet logs...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1.5">
+                          Transmit Briefing Packet <Send size={12} />
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
+
+        </div>
       </div>
     </section>
   );
