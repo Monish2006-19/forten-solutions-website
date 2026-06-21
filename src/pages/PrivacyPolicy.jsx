@@ -1,4 +1,6 @@
 import React from 'react';
+import GlobalNavbar from '../components/GlobalNavbar';
+import GlobalFooter from '../components/GlobalFooter';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Shield, Eye, Lock, UserCheck, Mail, Phone } from 'lucide-react';
@@ -12,20 +14,13 @@ export default function PrivacyPolicy() {
         canonical="/privacy-policy"
       />
         <div className="min-h-screen bg-white text-[#0A1128] font-sans">
+      <GlobalNavbar />
+
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-6 w-full border-b border-gray-100">
-        <div className="flex items-center space-x-2">
-          <img src="/FL.jpeg" alt="FL Logo" className="h-14 mix-blend-multiply" />
-          <span className="font-bold text-xl">Forten Solutions</span>
-        </div>
-        <Link to="/" className="flex items-center space-x-2 text-gray-500 hover:text-[#0066FF] transition-colors text-sm font-semibold">
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Home</span>
-        </Link>
-      </nav>
+      
 
       {/* Hero Banner */}
-      <div className="bg-[#0A1128] py-16 px-8 md:px-16 lg:px-24">
+      <div className="bg-[#0A1128] py-16 px-5 md:px-12 lg:px-24">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-[#0066FF] rounded-lg flex items-center justify-center">
@@ -33,7 +28,7 @@ export default function PrivacyPolicy() {
             </div>
             <span className="text-[#0066FF] font-bold text-xs tracking-widest uppercase">Legal</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">Privacy Policy</h1>
+          <h1 className="text-4xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4">Privacy Policy</h1>
           <p className="text-gray-400 text-base">Last updated: June 2025 &nbsp;·&nbsp; Effective: June 2025</p>
         </div>
       </div>
@@ -150,7 +145,7 @@ export default function PrivacyPolicy() {
       </div>
 
       {/* Footer */}
-      <div className="border-t border-gray-100 py-8 px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+      <div className="border-t border-gray-100 py-8 px-5 md:px-12 lg:px-24 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
         <p>© {new Date().getFullYear()} Forten Solutions. All rights reserved.</p>
         <div className="flex gap-6 mt-4 md:mt-0">
           <Link to="/privacy-policy" className="text-[#0066FF] font-semibold">Privacy Policy</Link>

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import GlobalNavbar from '../components/GlobalNavbar';
+import GlobalFooter from '../components/GlobalFooter';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Send, CheckCircle2, AlertCircle } from 'lucide-react';
@@ -66,7 +68,9 @@ function Consultation() {
         description="Ready to build something great? Book a free business consultation to discuss strategy, operations, and technical software architecture."
         canonical="/consultation"
       />
-        <div className="min-h-screen bg-white flex flex-col lg:flex-row font-sans text-[#0A1128]">
+        <div className="min-h-screen bg-white flex flex-col lg:flex-row min-h-screen font-sans text-[#0A1128]">
+      <GlobalNavbar />
+
       
       {/* Left Column - Image & Branding */}
       <div className="relative w-full lg:w-1/2 h-[35vh] lg:h-screen bg-[#0A1128] overflow-hidden">
@@ -126,7 +130,7 @@ function Consultation() {
           </Link>
         </div>
 
-        <div className="flex-1 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 lg:py-12 max-w-2xl mx-auto w-full">
+        <div className="flex-1 flex flex-col justify-center px-5 md:px-12 lg:px-24 py-24 lg:py-12 max-w-2xl mx-auto w-full">
           <div className="mb-10">
             <h1 className="text-3xl lg:text-4xl font-extrabold mb-3 text-[#0A1128] tracking-tight">Book a Consultation</h1>
             <p className="text-gray-500 text-[15px] leading-relaxed">Fill out the details below and our technical team will get back to you within 24 hours to discuss your project.</p>
@@ -240,6 +244,7 @@ function Consultation() {
           </form>
         </div>
       </div>
+      <GlobalFooter />
     </div>
     </>
   );

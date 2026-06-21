@@ -1,10 +1,14 @@
 import React from 'react';
+import GlobalNavbar from '../components/GlobalNavbar';
+import GlobalFooter from '../components/GlobalFooter';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Home } from 'lucide-react';
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-white text-[#0A1128] font-sans flex flex-col items-center justify-center px-8">
+      <GlobalNavbar />
+
       <div className="text-center max-w-lg">
         <div className="text-[120px] md:text-[160px] font-extrabold text-gray-100 leading-none select-none mb-0">
           404

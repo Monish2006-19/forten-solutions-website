@@ -1,4 +1,6 @@
 import React from 'react';
+import GlobalNavbar from '../components/GlobalNavbar';
+import GlobalFooter from '../components/GlobalFooter';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
 import { 
@@ -16,34 +18,20 @@ export default function About() {
         canonical="/about"
       />
         <div className="min-h-screen bg-white text-[#0A1128] font-sans selection:bg-[#0066FF] selection:text-white overflow-x-hidden flex flex-col">
+      <GlobalNavbar />
+
       {/* ═══ Navbar ═══ */}
-      <nav className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-6 w-full">
-        <div className="flex items-center space-x-2">
-          <img src="/FL.jpeg" alt="FL Logo" className="h-14 mix-blend-multiply" />
-          <span className="font-bold text-xl">Forten Solutions</span>
-        </div>
-        <div className="hidden md:flex items-center space-x-8 text-sm font-semibold">
-          <Link to="/" className="hover:text-[#0066FF] transition-colors">Home</Link>
-          <Link to="/services" className="hover:text-[#0066FF] transition-colors">Services</Link>
-          <Link to="/work" className="hover:text-[#0066FF] transition-colors">Work</Link>
-          <Link to="/about" className="text-[#0066FF] border-b-2 border-[#0066FF] pb-1 transition-colors">About Us</Link>
-          <Link to="/products" className="hover:text-[#0066FF] transition-colors">Products</Link>
-        </div>
-        <Link to="/consultation" className="bg-[#0A1128] hover:bg-gray-800 text-white px-5 py-2.5 rounded-md text-sm font-semibold transition-colors flex items-center space-x-2">
-          <span>Let's Talk</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-      </nav>
+      
 
       <main className="flex-1 w-full">
         
         {/* ── Hero Section ── */}
-        <section className="w-full px-8 md:px-16 lg:px-24 pt-16 pb-24 grid lg:grid-cols-2 gap-12 items-center">
+        <section className="w-full px-5 md:px-12 lg:px-24 pt-16 pb-24 grid lg:grid-cols-2 gap-12 items-center">
             
             {/* Left Content */}
             <div>
               <p className="text-[#0066FF] font-bold text-xs tracking-widest uppercase mb-5">ABOUT US</p>
-              <h1 className="text-6xl font-extrabold leading-tight mb-6 tracking-tight text-[#0A1128]">
+              <h1 className="text-4xl md:text-4xl lg:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 tracking-tight text-[#0A1128]">
                 Building Technology<br />That Drives Real<br /><span className="text-[#0066FF]">Business Impact.</span>
               </h1>
               <p className="text-gray-500 text-lg leading-relaxed max-w-[420px] mb-10">
@@ -97,7 +85,7 @@ export default function About() {
         </section>
 
         {/* ── Mission Section ── */}
-        <section className="px-8 md:px-16 lg:px-24 pb-24">
+        <section className="px-5 md:px-12 lg:px-24 pb-24">
           <div className="py-10">
             <div className="grid lg:grid-cols-[1fr_1fr] gap-16 lg:gap-24 items-start">
               
@@ -169,7 +157,7 @@ export default function About() {
         </section>
 
         {/* ── Values Grid ── */}
-        <section className="px-8 md:px-16 lg:px-24 pb-24 text-center w-full">
+        <section className="px-5 md:px-12 lg:px-24 pb-24 text-center w-full">
           <p className="text-[#0066FF] font-bold text-xs tracking-widest uppercase mb-4">OUR VALUES</p>
           <h2 className="text-2xl md:text-3xl font-extrabold text-[#0A1128] mb-16 tracking-tight">
             The principles that guide everything we do.
@@ -200,7 +188,7 @@ export default function About() {
         </section>
 
         {/* ── Journey Section ── */}
-        <section className="px-8 md:px-16 lg:px-24 pb-32">
+        <section className="px-5 md:px-12 lg:px-24 pb-32">
           <div className="grid lg:grid-cols-[1fr_1.3fr] gap-16 lg:gap-24 items-center">
             
             {/* Timeline */}
@@ -257,55 +245,7 @@ export default function About() {
       </main>
 
       {/* ═══ Footer ═══ */}
-      <footer className="bg-[#0A1128] text-gray-300 pt-20 pb-8 border-t border-white/10 w-full">
-        <div className="w-full px-8 md:px-16 lg:px-24 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 max-w-[1500px] mx-auto">
-          <div>
-            <div className="flex items-center mb-6 bg-white/90 p-2 rounded w-fit">
-              <img src="/logo.jpg" alt="Forten Solutions" className="h-10 mix-blend-multiply" />
-            </div>
-            <p className="text-sm text-gray-400 mb-8">Committed to your success.</p>
-            <div className="flex space-x-4">
-              <a href="https://www.linkedin.com/in/forten-solutions-1a9674418/?skipRedirect=true" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0066FF] transition-colors"><Linkedin className="w-4 h-4 text-white" /></a>
-              <a href="https://x.com/FortenSolutions" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0066FF] transition-colors"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=forten.solutions@gmail.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0066FF] transition-colors"><Mail className="w-4 h-4 text-white" /></a>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Services</h4>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link to="/services" className="hover:text-white transition-colors">Cloud Solutions</Link></li>
-              <li><Link to="/services" className="hover:text-white transition-colors">Software Development</Link></li>
-              <li><Link to="/services" className="hover:text-white transition-colors">Web Applications</Link></li>
-              <li><Link to="/services" className="hover:text-white transition-colors">Mobile Applications</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Company</h4>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/work" className="hover:text-white transition-colors">Our Work</Link></li>
-              <li><Link to="/products" className="hover:text-white transition-colors">Products</Link></li>
-              <li><Link to="/consultation" className="hover:text-white transition-colors">Contact</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Contact</h4>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=forten.solutions@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">forten.solutions@gmail.com</a></li>
-              <li><a href="tel:+918825953617" className="hover:text-white transition-colors">+91 88259 53617</a></li>
-              <li><a href="tel:+919361259107" className="hover:text-white transition-colors">+91 93612 59107</a></li>
-              <li className="text-gray-500">Vellore, Tamil Nadu, India</li>
-            </ul>
-          </div>
-        </div>
-        <div className="w-full px-8 md:px-16 lg:px-24 max-w-[1500px] mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-          <p>© {new Date().getFullYear()} Forten Solutions. All rights reserved.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-          </div>
-        </div>
-      </footer>
+      
     </div>
     </>
   );

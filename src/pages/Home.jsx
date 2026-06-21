@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import GlobalNavbar from '../components/GlobalNavbar';
+import GlobalFooter from '../components/GlobalFooter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -81,31 +83,17 @@ function Home() {
         jsonLd={structuredData}
       />
       <div className="min-h-screen bg-white text-[#0A1128] font-sans selection:bg-[#0066FF] selection:text-white overflow-x-hidden">
+      <GlobalNavbar />
+
 
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-6 w-full">
-        <div className="flex items-center space-x-2">
-          <img src="/FL.jpeg" alt="FL Logo" className="h-14 mix-blend-multiply" />
-          <span className="font-bold text-xl">Forten Solutions</span>
-        </div>
-        <div className="hidden md:flex items-center space-x-8 text-sm font-semibold">
-          <Link to="/" className="text-[#0066FF] transition-colors">Home</Link>
-          <Link to="/services" className="hover:text-[#0066FF] transition-colors">Services</Link>
-          <Link to="/work" className="hover:text-[#0066FF] transition-colors">Work</Link>
-          <Link to="/about" className="hover:text-[#0066FF] transition-colors">About Us</Link>
-          <Link to="/products" className="hover:text-[#0066FF] transition-colors">Products</Link>
-        </div>
-        <Link to="/consultation" className="bg-[#0A1128] hover:bg-gray-800 text-white px-5 py-2.5 rounded-md text-sm font-semibold transition-colors flex items-center space-x-2">
-          <span>Let's Talk</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-      </nav>
+      
 
       {/* Hero Section */}
-      <section className="w-full px-8 md:px-16 lg:px-24 pt-16 pb-24 grid lg:grid-cols-2 gap-12 items-center">
+      <section className="w-full px-5 md:px-12 lg:px-24 pt-16 pb-24 grid lg:grid-cols-2 gap-12 items-center">
         <div>
           <p className="text-[#0066FF] font-bold text-xs tracking-widest uppercase mb-4">Software Solutions That Drive Growth</p>
-          <h1 className="text-6xl font-extrabold leading-tight mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-4xl lg:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 tracking-tight">
             Software that<br />powers <span className="text-[#0066FF]">progress.</span>
           </h1>
           <p className="text-gray-600 text-lg mb-8 max-w-lg leading-relaxed">
@@ -174,10 +162,10 @@ function Home() {
       </section>
 
       {/* Our Promise */}
-      <section className="w-full px-8 md:px-16 lg:px-24 py-24 grid lg:grid-cols-2 gap-16 items-center">
+      <section className="w-full px-5 md:px-12 lg:px-24 py-24 grid lg:grid-cols-2 gap-16 items-center">
         <div>
           <p className="text-[#0066FF] font-bold text-xs tracking-widest uppercase mb-4">Our Promise</p>
-          <h2 className="text-6xl font-extrabold leading-tight mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-4xl lg:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 tracking-tight">
             Your vision.<br />Our expertise.<br />Real impact.
           </h2>
           <p className="text-gray-600 text-lg mb-8 max-w-md leading-relaxed">
@@ -195,7 +183,7 @@ function Home() {
 
       {/* What We Do */}
       <section className="bg-white py-24">
-        <div className="w-full px-8 md:px-16 lg:px-24">
+        <div className="w-full px-5 md:px-12 lg:px-24">
           <div className="text-center mb-16">
             <p className="text-[#0066FF] font-bold text-xs tracking-widest uppercase mb-4">What We Do</p>
           </div>
@@ -214,7 +202,7 @@ function Home() {
       </section>
 
       {/* Stats Banner */}
-      <section className="w-full px-8 md:px-16 lg:px-24 py-12">
+      <section className="w-full px-5 md:px-12 lg:px-24 py-12">
         <div className="rounded-2xl py-10 px-8 md:px-12 relative overflow-hidden bg-cover bg-center shadow-xl" style={{ backgroundImage: "url('/Background.png')" }}>
           <div className="absolute inset-0 bg-[#0A1128]/85 backdrop-blur-sm"></div>
 
@@ -233,7 +221,7 @@ function Home() {
       </section>
 
       {/* Our Approach */}
-      <section className="w-full px-8 md:px-16 lg:px-24 py-16">
+      <section className="w-full px-5 md:px-12 lg:px-24 py-16">
         <div className="text-center mb-16">
           <p className="text-[#0066FF] font-bold text-xs tracking-widest uppercase mb-4">Our Approach</p>
         </div>
@@ -263,7 +251,7 @@ function Home() {
 
       {/* Testimonials */}
       <section className="bg-gray-50 py-24">
-        <div className="w-full px-8 md:px-16 lg:px-24">
+        <div className="w-full px-5 md:px-12 lg:px-24">
           <div className="text-center mb-16">
             <p className="text-[#0066FF] font-bold text-xs tracking-widest uppercase mb-4">Testimonials</p>
             <h2 className="text-3xl font-extrabold">What our clients say</h2>
@@ -316,7 +304,7 @@ function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="w-full px-8 md:px-16 lg:px-24 py-16">
+      <section className="w-full px-5 md:px-12 lg:px-24 py-16">
         <div className="rounded-2xl p-8 md:p-12 relative overflow-hidden bg-cover bg-center shadow-xl" style={{ backgroundImage: "url('/Background.png')" }}>
           <div className="absolute inset-0 bg-[#0A1128]/70 backdrop-blur-sm"></div>
 
@@ -345,7 +333,7 @@ function Home() {
 
       {/* FAQ */}
       <section className="py-24 border-t border-gray-100">
-        <div className="w-full px-8 md:px-16 lg:px-24">
+        <div className="w-full px-5 md:px-12 lg:px-24">
           <div className="text-center mb-12">
             <p className="text-[#0066FF] font-bold text-xs tracking-widest uppercase mb-4">FAQ</p>
             <h2 className="text-3xl font-extrabold">Frequently Asked Questions</h2>
@@ -384,76 +372,9 @@ function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#0A1128] text-gray-300 pt-20 pb-8 border-t border-white/10">
-        <div className="w-full px-8 md:px-16 lg:px-24 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-1">
-            <div className="flex items-center mb-6 bg-white/90 p-2 rounded w-fit">
-              <img src="/logo.jpg" alt="Forten Solutions" className="h-10 mix-blend-multiply" />
-            </div>
-            <p className="text-sm text-gray-400 mb-8">Committed to your success.</p>
-            <div className="flex space-x-4">
-              <a href="https://www.linkedin.com/in/forten-solutions-1a9674418/?skipRedirect=true" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0066FF] transition-colors"><Linkedin className="w-4 h-4 text-white" /></a>
-              <a href="https://x.com/FortenSolutions" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0066FF] transition-colors"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=forten.solutions@gmail.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0066FF] transition-colors"><Mail className="w-4 h-4 text-white" /></a>
-            </div>
-          </div>
+      
 
-          <div>
-            <h4 className="text-white font-bold mb-6">Services</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link to="/services" className="hover:text-[#0066FF] transition-colors">Software Development</Link></li>
-              <li><Link to="/services" className="hover:text-[#0066FF] transition-colors">Web Applications</Link></li>
-              <li><Link to="/services" className="hover:text-[#0066FF] transition-colors">Mobile Applications</Link></li>
-              <li><Link to="/services" className="hover:text-[#0066FF] transition-colors">Business Automation</Link></li>
-              <li><Link to="/services" className="hover:text-[#0066FF] transition-colors">Cloud Solutions</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-white font-bold mb-6">Company</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link to="/about" className="hover:text-[#0066FF] transition-colors">About Us</Link></li>
-              <li><Link to="/work" className="hover:text-[#0066FF] transition-colors">Our Work</Link></li>
-              <li><Link to="/products" className="hover:text-[#0066FF] transition-colors">Products</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-white font-bold mb-6">Contact Us</h4>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-start space-x-3">
-                <Mail className="w-4 h-4 text-[#0066FF] mt-0.5 shrink-0" />
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=forten.solutions@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">forten.solutions@gmail.com</a>
-              </li>
-              <li className="flex items-start space-x-3">
-                <Phone className="w-4 h-4 text-[#0066FF] mt-0.5 shrink-0" />
-                <a href="tel:+918825953617" className="hover:text-white transition-colors">+91 88259 53617</a>
-              </li>
-              <li className="flex items-start space-x-3">
-                <Phone className="w-4 h-4 text-[#0066FF] mt-0.5 shrink-0" />
-                <a href="tel:+919361259107" className="hover:text-white transition-colors">+91 93612 59107</a>
-              </li>
-              <li className="flex items-start space-x-3">
-                <Phone className="w-4 h-4 text-[#0066FF] mt-0.5 shrink-0" />
-                <a href="tel:+919047550820" className="hover:text-white transition-colors">+91 90475 50820</a>
-              </li>
-              <li className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-[#0066FF] mt-0.5 shrink-0" />
-                <span>Vellore, Tamil Nadu, India</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="w-full px-8 md:px-16 lg:px-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-          <p>© 2026 Forten Solutions. All rights reserved.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-          </div>
-        </div>
-      </footer>
-
+      <GlobalFooter />
     </div>
     </>
   );
