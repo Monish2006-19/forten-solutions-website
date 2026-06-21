@@ -273,7 +273,7 @@ export default function Products() {
               ].map((screen, i) => (
                 <div key={i} className="group cursor-pointer">
                   <div className="bg-white rounded-xl overflow-hidden border border-gray-200/80 shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-2 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <img src={screen.img} alt={screen.title} className="w-full h-auto object-contain rounded-lg border border-gray-100" />
+                    <img src={screen.img} alt={screen.title} className="w-full h-auto object-contain rounded-lg border border-gray-100" loading="lazy" />
                   </div>
                   <p className="text-center text-[17px] font-bold text-[#0A1128] mt-5 mb-4">{screen.title}</p>
                 </div>

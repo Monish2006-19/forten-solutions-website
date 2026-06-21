@@ -112,6 +112,7 @@ export default function MobileShowcase() {
                         src={mockupImages[activeTab].web} 
                         alt="Web Mockup" 
                         className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                        loading="lazy"
                       />
                     </div>
                   </div>
@@ -126,6 +127,7 @@ export default function MobileShowcase() {
                         src={mockupImages[activeTab].mob} 
                         alt="Mobile Mockup" 
                         className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                        loading="lazy"
                       />
                     </div>
                   </div>

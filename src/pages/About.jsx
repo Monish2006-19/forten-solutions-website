@@ -46,7 +46,7 @@ export default function About() {
                     <Users className="w-5 h-5 text-[#0066FF]" />
                   </div>
                   <div>
-                    <span className="text-xl font-extrabold text-[#0A1128] block">100+</span>
+                    <span className="text-xl font-extrabold text-[#0A1128] block">2+</span>
                     <span className="text-xs text-gray-500 block">Happy Clients</span>
                   </div>
                 </div>
@@ -56,7 +56,7 @@ export default function About() {
                     <ShieldCheck className="w-5 h-5 text-[#0066FF]" />
                   </div>
                   <div>
-                    <span className="text-xl font-extrabold text-[#0A1128] block">50+</span>
+                    <span className="text-xl font-extrabold text-[#0A1128] block">2+</span>
                     <span className="text-xs text-gray-500 block">Projects Delivered</span>
                   </div>
                 </div>
@@ -66,7 +66,7 @@ export default function About() {
                     <Calendar className="w-5 h-5 text-[#0066FF]" />
                   </div>
                   <div>
-                    <span className="text-xl font-extrabold text-[#0A1128] block">5+</span>
+                    <span className="text-xl font-extrabold text-[#0A1128] block">1.5</span>
                     <span className="text-xs text-gray-500 block">Years of Experience</span>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ export default function About() {
             {/* Right Image */}
             <div className="relative w-full h-[500px] lg:h-[600px]">
               <img 
-                src="/bul.png" 
+                src="/build.png" 
                 alt="Corporate Building" 
                 className="w-full h-full object-contain object-right" 
                loading="lazy"/>

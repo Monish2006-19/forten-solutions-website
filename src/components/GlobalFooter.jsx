@@ -8,7 +8,7 @@ export default function GlobalFooter() {
       <div className="w-full px-5 md:px-12 lg:px-24 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
         <div className="col-span-1 md:col-span-1">
           <div className="flex items-center mb-6 bg-white/90 p-2 rounded w-fit">
-            <img src="/logo.jpg" alt="Forten Solutions" className="h-10 mix-blend-multiply" />
+            <img src="/logo.jpg" alt="Forten Solutions" className="h-10 mix-blend-multiply" loading="lazy" />
           </div>
           <p className="text-sm text-gray-400 mb-8">Committed to your success.</p>
           <div className="flex space-x-4">

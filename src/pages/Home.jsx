@@ -111,7 +111,7 @@ function Home() {
           </div>
         </div>
         <div className="relative">
-          <img src="/Lap.png" alt="Laptop Dashboard" className="w-full scale-110 origin-right mix-blend-multiply"  loading="lazy"/>
+          <img src="/la.png" alt="Laptop Dashboard" className="w-full scale-110 origin-right mix-blend-multiply"  loading="lazy"/>
         </div>
       </section>
 

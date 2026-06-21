@@ -267,6 +267,7 @@ export default function CaseStudies() {
                               src={imgSrc}
                               alt={`PeeTee screen ${imgIdx + 1}`}
                               className="w-full h-auto object-contain rounded-2xl max-h-[480px]"
+                              loading="lazy"
                             />
                           </motion.div>
                         );

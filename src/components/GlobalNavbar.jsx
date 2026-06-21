@@ -19,7 +19,7 @@ export default function GlobalNavbar() {
     <nav className="relative z-[100] flex items-center justify-between px-5 md:px-12 lg:px-24 py-5 w-full bg-white border-b border-gray-100">
       {/* Logo */}
       <Link to="/" className="flex items-center space-x-2 z-50">
-        <img src="/FL.jpeg" alt="FL Logo" className="h-10 md:h-12 mix-blend-multiply" />
+        <img src="/FL.jpeg" alt="FL Logo" className="h-10 md:h-12 mix-blend-multiply" loading="lazy" />
         <span className="font-bold text-lg md:text-xl text-[#0A1128]">Forten Solutions</span>
       </Link>
 
